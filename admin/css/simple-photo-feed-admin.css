@@ -2,7 +2,7 @@
  * CSS for admin dashboard functionality
  */
 
-.sif_main_wrap {
+.spf_main_wrap {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -10,46 +10,46 @@
     max-width: 1080px;
 }
 
-.sif_main_left {
+.spf_main_left {
     background: #ffffff;
     border-radius: 10px;
     padding: 0 2%;
     flex-basis: 54%;
 }
 
-.sif_main_right {
+.spf_main_right {
     background: #ffffff;
     border-radius: 10px;
     padding: 20px 2%;
     flex-basis: 36%;
 }
 
-.sif_main_right pre {
+.spf_main_right pre {
     background: #f1f2f3;
     padding: 0.5rem;
 }
 
-.sif_main_left input[type="text"] {
+.spf_main_left input[type="text"] {
     min-width: 300px;
     width: 100%;
     display: block;
 }
 
-.sif_main_left .form-table th {
+.spf_main_left .form-table th {
     width: 120px;
 }
 
-.sif_main_bottom {
+.spf_main_bottom {
     flex-grow: 1;
     text-align: right;
 }
 
-a.sif_profile_link.button-primary {
+a.spf_profile_link.button-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
-a.sif_profile_link.button-primary .dashicons {
+a.spf_profile_link.button-primary .dashicons {
     font-size: 16px;
     margin-right: 6px;
     width: 16px;
@@ -57,7 +57,7 @@ a.sif_profile_link.button-primary .dashicons {
     display: block;
 }
 
-table.sif_profile {
+table.spf_profile {
     margin: 0.5rem 0;
     width: 100%;
     border: 1px solid #ddd;
@@ -65,31 +65,31 @@ table.sif_profile {
     border-radius: 0.25rem;
 }
 
-table.sif_profile th {
+table.spf_profile th {
     color: #5851db;
     padding: 0;
 }
 
-table.sif_profile td {
+table.spf_profile td {
     padding: 0;
     color: #833ab4;
 }
 
-.sif_profile_row.hidden {
+.spf_profile_row.hidden {
     display: none;
 }
 
-.sif-dual-ring.hidden {
+.spf-dual-ring.hidden {
     display: none;
 }
 
-.sif-dual-ring {
+.spf-dual-ring {
     display: inline-block;
     width: 90px;
     height: 90px;
 }
 
-.sif-dual-ring:after {
+.spf-dual-ring:after {
     content: " ";
     display: block;
     width: 64px;
@@ -98,27 +98,27 @@ table.sif_profile td {
     border-radius: 50%;
     border: 6px solid #5851db;
     border-color: #833ab4 transparent #5851db transparent;
-    animation: sif-dual-ring 1.2s linear infinite;
+    animation: spf-dual-ring 1.2s linear infinite;
 }
 
-.sif-dual-ring#sif-loader-small {
+.spf-dual-ring#spf-loader-small {
     width: 50px;
     height: 50px;
 }
 
-.sif-dual-ring#sif-loader-small:after {
+.spf-dual-ring#spf-loader-small:after {
     width: 32px;
     height: 32px;
     margin: 8px;
 }
 
-.sif_main_left .notice-error,
-.sif_main_left .notice-warning {
+.spf_main_left .notice-error,
+.spf_main_left .notice-warning {
     margin: 0;
     padding: 0.6rem;
 }
 
-@keyframes sif-dual-ring {
+@keyframes spf-dual-ring {
     0% {
         transform: rotate(0deg);
     }
@@ -128,36 +128,36 @@ table.sif_profile td {
     }
 }
 
-.sif_main_wrap .button-primary {
+.spf_main_wrap .button-primary {
     background: #5851db;
     border-color: #5851db;
     border-radius: 0.25rem;
 }
 
-.sif_main_wrap .button-secondary {
+.spf_main_wrap .button-secondary {
     color: #5851db;
     border-color: #5851db;
     border-radius: 0.25rem;
 }
 
-.sif_main_wrap .button-primary:hover,
-.sif_main_wrap .button-secondary:hover {
+.spf_main_wrap .button-primary:hover,
+.spf_main_wrap .button-secondary:hover {
     background: #833ab4;
     border-color: #833ab4;
     color: #fff;
 }
 
-.sif_main_title,
-.sif_main_right h2 {
+.spf_main_title,
+.spf_main_right h2 {
     color: #2821ab;
 }
 
-.sif_main_right h3 {
+.spf_main_right h3 {
     color: #5851db;
 }
 
-.sif_main_title .dashicons:before,
-.sif_main_right .dashicons:before {
+.spf_main_title .dashicons:before,
+.spf_main_right .dashicons:before {
     background: -moz-linear-gradient(top, #833ab4 0%, #5851db 100%);
     background: -webkit-linear-gradient(top, #833ab4 0%, #5851db 100%);
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
@@ -168,17 +168,17 @@ table.sif_profile td {
 }
 
 @media only screen and (max-width: 1080px) {
-    .sif_main_wrap {
+    .spf_main_wrap {
         flex-direction: column;
     }
 
-    .sif_main_left,
-    .sif_main_right {
+    .spf_main_left,
+    .spf_main_right {
         margin: 0 20px 20px 0;
         flex-basis: 100%;
     }
 
-    .sif_main_bottom {
+    .spf_main_bottom {
         margin: 0 20px 0 0;
     }
 }

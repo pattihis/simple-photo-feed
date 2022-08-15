@@ -5,8 +5,8 @@
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  */
 
 /**
@@ -15,11 +15,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  * @author     George Pattihis <info@gp-web.dev>
  */
-class Simple_Insta_Feed_Deactivator {
+class Simple_Photo_Feed_Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -30,7 +30,7 @@ class Simple_Insta_Feed_Deactivator {
 	 */
 	public static function deactivate() {
 
-		wp_clear_scheduled_hook( 'simple_instagram_refresh_token' );
+		wp_clear_scheduled_hook( 'simple_photo_refresh_token' );
 
 	}
 

@@ -1,12 +1,12 @@
 <?php
 /**
- * Class Simple_Insta_Feed_Api
+ * Class Simple_Photo_Feed_Api
  *
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  */
 
 /**
@@ -15,11 +15,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  * @author     George Pattihis <info@gp-web.dev>
  */
-class Simple_Insta_Feed_Api {
+class Simple_Photo_Feed_Api {
 
 	/**
 	 * API endpoints.
@@ -55,10 +55,10 @@ class Simple_Insta_Feed_Api {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_get_auth_url_personal() {
+	public function spf_get_auth_url_personal() {
 
-		$sif_nonce = wp_create_nonce( 'sif_nonce' );
-		$options   = get_option( 'sif_main_settings', array() );
+		$spf_nonce = wp_create_nonce( 'spf_nonce' );
+		$options   = get_option( 'spf_main_settings', array() );
 
 		$url = add_query_arg(
 			array(
@@ -66,7 +66,7 @@ class Simple_Insta_Feed_Api {
 				'redirect_uri'  => $this->api['redirect_uri'],
 				'scope'         => $this->api['scope'],
 				'response_type' => $this->api['response_type'],
-				'state'         => rawurlencode( admin_url( 'admin.php?page=simple-insta-feed&' ) . 'sif_nonce=' . $sif_nonce ),
+				'state'         => rawurlencode( admin_url( 'admin.php?page=simple-photo-feed&' ) . 'spf_nonce=' . $spf_nonce ),
 			),
 			$this->api['authorize_url']
 		);
@@ -80,9 +80,9 @@ class Simple_Insta_Feed_Api {
 	 * @param   string $code Authorization code from Instagram user.
 	 * @since   1.0.0
 	 */
-	public function sif_get_short_lived_token( $code ) {
+	public function spf_get_short_lived_token( $code ) {
 
-		$options = get_option( 'sif_main_settings', array() );
+		$options = get_option( 'spf_main_settings', array() );
 		$args    = array(
 			'method'    => 'POST',
 			'timeout'   => 45,
@@ -109,9 +109,9 @@ class Simple_Insta_Feed_Api {
 	 * @param   string $short Short-Lived Access Token.
 	 * @since   1.0.0
 	 */
-	public function sif_get_long_lived_token( $short ) {
+	public function spf_get_long_lived_token( $short ) {
 
-		$options  = get_option( 'sif_main_settings', array() );
+		$options  = get_option( 'spf_main_settings', array() );
 		$response = wp_remote_get( $this->api['long_lived'] . '?grant_type=ig_exchange_token&client_secret=' . $options['app_secret'] . '&access_token=' . $short );
 		if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
 			return json_decode( wp_remote_retrieve_body( $response ) );
@@ -124,9 +124,9 @@ class Simple_Insta_Feed_Api {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_refresh_long_lived_token() {
+	public function spf_refresh_long_lived_token() {
 
-		$options  = get_option( 'sif_main_settings', array() );
+		$options  = get_option( 'spf_main_settings', array() );
 		$response = wp_remote_get( $this->api['refresh_token'] . '?grant_type=ig_refresh_token&access_token=' . $options['token'] );
 		if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
 			return json_decode( wp_remote_retrieve_body( $response ) );
@@ -139,9 +139,9 @@ class Simple_Insta_Feed_Api {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_get_account() {
+	public function spf_get_account() {
 
-		$options  = get_option( 'sif_main_settings', array() );
+		$options  = get_option( 'spf_main_settings', array() );
 		$response = wp_remote_get( $this->api['root'] . 'me?fields=account_type,id,username,media_count&access_token=' . $options['token'] );
 		$body     = json_decode( wp_remote_retrieve_body( $response ) );
 
@@ -166,21 +166,21 @@ class Simple_Insta_Feed_Api {
 	 * @param   string $token Long-lived access token.
 	 * @since   1.0.0
 	 */
-	public function sif_connect_user( $user_id, $auth, $token ) {
+	public function spf_connect_user( $user_id, $auth, $token ) {
 
-		$options = get_option( 'sif_main_settings', array() );
+		$options = get_option( 'spf_main_settings', array() );
 
 		$options['user_id'] = $user_id;
 		$options['auth']    = $auth;
 		$options['token']   = $token;
-		update_option( 'sif_main_settings', $options );
+		update_option( 'spf_main_settings', $options );
 
-		$admin = new Simple_Insta_Feed_Admin( 'simple-insta-feed', SIF_VERSION );
-		$admin->sif_delete_transients();
+		$admin = new Simple_Photo_Feed_Admin( 'simple-photo-feed', SPF_VERSION );
+		$admin->spf_delete_transients();
 
 		$refresh = '<script type="text/javascript">
 			setTimeout(() => {
-				window.history.replaceState({}, document.title, window.location.pathname + "?page=simple-insta-feed");
+				window.history.replaceState({}, document.title, window.location.pathname + "?page=simple-photo-feed");
 				window.location.reload(true);
 			}, "100");
 		</script>';
@@ -193,10 +193,10 @@ class Simple_Insta_Feed_Api {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_get_media() {
+	public function spf_get_media() {
 
-		$options = get_option( 'sif_main_settings', array() );
-		$data    = get_transient( 'sif_get_media_' . $options['cron_time'] );
+		$options = get_option( 'spf_main_settings', array() );
+		$data    = get_transient( 'spf_get_media_' . $options['cron_time'] );
 		if ( false === $data ) {
 			$response = wp_remote_get( $this->api['root'] . 'me/media?fields=id,caption,media_type,media_url,children{media_url,thumbnail_url},permalink,thumbnail_url,timestamp&access_token=' . $options['token'] . '&limit=100' );
 			if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
@@ -204,7 +204,7 @@ class Simple_Insta_Feed_Api {
 				$data  = $media->data;
 			}
 
-			set_transient( 'sif_get_media_' . $options['cron_time'], $data, $options['cron_time'] * HOUR_IN_SECONDS );
+			set_transient( 'spf_get_media_' . $options['cron_time'], $data, $options['cron_time'] * HOUR_IN_SECONDS );
 		}
 
 		return $data;
@@ -218,7 +218,7 @@ class Simple_Insta_Feed_Api {
 	 * @param   array $new Our new updated options.
 	 * @since   1.0.0
 	 */
-	public function sif_setup_cron_job( $old, $new ) {
+	public function spf_setup_cron_job( $old, $new ) {
 
 		switch ( $new['cron_time'] ) {
 			case 1:
@@ -241,15 +241,15 @@ class Simple_Insta_Feed_Api {
 		if ( (bool) $new['auth'] ) {
 
 			if ( $old['cron_time'] !== $new['cron_time'] ) {
-				wp_clear_scheduled_hook( 'simple_instagram_update_feed' );
+				wp_clear_scheduled_hook( 'simple_photo_update_feed' );
 			}
 
-			if ( ! wp_next_scheduled( 'simple_instagram_update_feed' ) ) {
-				wp_schedule_event( time(), $interval, 'simple_instagram_update_feed' );
+			if ( ! wp_next_scheduled( 'simple_photo_update_feed' ) ) {
+				wp_schedule_event( time(), $interval, 'simple_photo_update_feed' );
 			}
 		} else {
 
-			wp_clear_scheduled_hook( 'simple_instagram_update_feed' );
+			wp_clear_scheduled_hook( 'simple_photo_update_feed' );
 
 		}
 	}
@@ -259,11 +259,11 @@ class Simple_Insta_Feed_Api {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_refresh_feed() {
+	public function spf_refresh_feed() {
 
-		$admin   = new Simple_Insta_Feed_Admin( 'simple-insta-feed', SIF_VERSION );
-		$success = $admin->sif_delete_transients();
-		$this->sif_get_media();
+		$admin   = new Simple_Photo_Feed_Admin( 'simple-photo-feed', SPF_VERSION );
+		$success = $admin->spf_delete_transients();
+		$this->spf_get_media();
 
 		return $success;
 	}

@@ -1,12 +1,12 @@
 <?php
 /**
- * Class Simple_Insta_Feed_Admin
+ * Class Simple_Photo_Feed_Admin
  *
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  */
 
 /**
@@ -15,11 +15,11 @@
  * Enqueue assets, register menu, settings, options and Ajax callbacks
  *
  * @since      1.0.0
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  * @author     George Pattihis <info@gp-web.dev>
  */
-class Simple_Insta_Feed_Admin {
+class Simple_Photo_Feed_Admin {
 
 	/**
 	 * The ID of this plugin.
@@ -60,7 +60,7 @@ class Simple_Insta_Feed_Admin {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-insta-feed-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-photo-feed-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -71,10 +71,10 @@ class Simple_Insta_Feed_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/simple-insta-feed-admin.js', array(), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/simple-photo-feed-admin.js', array(), $this->version, false );
 		wp_localize_script(
 			$this->plugin_name,
-			'sif',
+			'spf',
 			array(
 				'ajax_url'  => admin_url( 'admin-ajax.php' ),
 				'theme_uri' => get_stylesheet_directory_uri(),
@@ -88,14 +88,14 @@ class Simple_Insta_Feed_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function simple_insta_feed_admin_menu() {
+	public function simple_photo_feed_admin_menu() {
 
 		add_menu_page(
-			__( 'Simple Instagram Feed Settings', 'simple-insta-feed' ),
-			__( 'Simple Instagram', 'simple-insta-feed' ),
+			__( 'Simple Photo Feed Settings', 'simple-photo-feed' ),
+			__( 'Simple Photo Feed', 'simple-photo-feed' ),
 			'manage_options',
 			$this->plugin_name,
-			array( $this, 'simple_insta_feed_admin_display' ),
+			array( $this, 'simple_photo_feed_admin_display' ),
 			'dashicons-instagram',
 			25
 		);
@@ -107,8 +107,8 @@ class Simple_Insta_Feed_Admin {
 	 *
 	 * @since  1.0.0
 	 */
-	public function simple_insta_feed_admin_display() {
-		include_once 'partials/simple-insta-feed-admin-display.php';
+	public function simple_photo_feed_admin_display() {
+		include_once 'partials/simple-photo-feed-admin-display.php';
 	}
 
 	/**
@@ -120,9 +120,9 @@ class Simple_Insta_Feed_Admin {
 	 *
 	 * @return void
 	 */
-	public function simple_insta_feed_register_settings() {
+	public function simple_photo_feed_register_settings() {
 
-		register_setting( 'sif_main_settings', 'sif_main_settings' );
+		register_setting( 'spf_main_settings', 'spf_main_settings' );
 
 	}
 
@@ -135,13 +135,13 @@ class Simple_Insta_Feed_Admin {
 	 * @param  array $file Plugin's root filepath.
 	 * @return array Links list to display in plugins page.
 	 */
-	public function simple_insta_feed_plugin_links( $links, $file ) {
+	public function simple_photo_feed_plugin_links( $links, $file ) {
 
-		if ( SIF_BASENAME === $file ) {
-			$sif_links = '<a href="' . get_admin_url() . 'admin.php?page=simple-insta-feed" title="Plugin Options">' . __( 'Settings', 'simple-insta-feed' ) . '</a>';
-			$sif_visit = '<a href="https://gp-web.dev/" title="Contact" target="_blank" >' . __( 'Contact', 'simple-insta-feed' ) . '</a>';
-			array_unshift( $links, $sif_visit );
-			array_unshift( $links, $sif_links );
+		if ( SPF_BASENAME === $file ) {
+			$spf_links = '<a href="' . get_admin_url() . 'admin.php?page=simple-photo-feed" title="Plugin Options">' . __( 'Settings', 'simple-photo-feed' ) . '</a>';
+			$spf_visit = '<a href="https://gp-web.dev/" title="Contact" target="_blank" >' . __( 'Contact', 'simple-photo-feed' ) . '</a>';
+			array_unshift( $links, $spf_visit );
+			array_unshift( $links, $spf_links );
 		}
 
 		return $links;
@@ -158,7 +158,7 @@ class Simple_Insta_Feed_Admin {
 	 * @param  array $schedules Default cron recurrences.
 	 * @return array Custom cron recurrences.
 	 */
-	public function simple_insta_feed_cron_schedule( $schedules ) {
+	public function simple_photo_feed_cron_schedule( $schedules ) {
 
 		if ( ! isset( $schedules['3h'] ) ) {
 			$schedules['3h'] = array(
@@ -182,17 +182,17 @@ class Simple_Insta_Feed_Admin {
 	 * @since  1.0.0
 	 * @return array Allowed cron recurrences
 	 */
-	public function simple_insta_feed_cron_times() {
+	public function simple_photo_feed_cron_times() {
 
 		$times = array(
-			1  => __( 'Every 1h', 'simple-insta-feed' ),
-			3  => __( 'Every 3h', 'simple-insta-feed' ),
-			6  => __( 'Every 6h', 'simple-insta-feed' ),
-			12 => __( 'Every 12h', 'simple-insta-feed' ),
-			24 => __( 'Every 24h', 'simple-insta-feed' ),
+			1  => __( 'Every 1h', 'simple-photo-feed' ),
+			3  => __( 'Every 3h', 'simple-photo-feed' ),
+			6  => __( 'Every 6h', 'simple-photo-feed' ),
+			12 => __( 'Every 12h', 'simple-photo-feed' ),
+			24 => __( 'Every 24h', 'simple-photo-feed' ),
 		);
 
-		return (array) apply_filters( 'sif_cron_times', $times );
+		return (array) apply_filters( 'spf_cron_times', $times );
 
 	}
 
@@ -201,19 +201,19 @@ class Simple_Insta_Feed_Admin {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_disconnect_user() {
-		$options = get_option( 'sif_main_settings', array() );
+	public function spf_disconnect_user() {
+		$options = get_option( 'spf_main_settings', array() );
 
 		$options['token']   = '';
 		$options['user_id'] = '';
 		$options['auth']    = '';
 
-		update_option( 'sif_main_settings', $options );
+		update_option( 'spf_main_settings', $options );
 
-		if ( $this->sif_delete_transients() ) {
-			$message = esc_html__( 'User Disconnected. Redirecting...', 'simple-insta-feed' );
+		if ( $this->spf_delete_transients() ) {
+			$message = esc_html__( 'User Disconnected. Redirecting...', 'simple-photo-feed' );
 		} else {
-			$message = esc_html__( 'Error! Something went wrong...', 'simple-insta-feed' );
+			$message = esc_html__( 'Error! Something went wrong...', 'simple-photo-feed' );
 		}
 		echo wp_json_encode( $message );
 		die();
@@ -224,10 +224,10 @@ class Simple_Insta_Feed_Admin {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_clear_insta_cache() {
+	public function spf_clear_feed_cache() {
 
-		if ( $this->sif_delete_transients() ) {
-			$success = esc_html__( 'Cache Cleared!', 'simple-insta-feed' );
+		if ( $this->spf_delete_transients() ) {
+			$success = esc_html__( 'Cache Cleared!', 'simple-photo-feed' );
 			echo wp_json_encode( $success );
 		} else {
 			echo 'Error!';
@@ -240,11 +240,11 @@ class Simple_Insta_Feed_Admin {
 	 *
 	 * @since   1.0.0
 	 */
-	public function sif_delete_transients() {
+	public function spf_delete_transients() {
 
-		$times = $this->simple_insta_feed_cron_times();
+		$times = $this->simple_photo_feed_cron_times();
 		foreach ( $times as $k => $v ) {
-			delete_transient( 'sif_get_media_' . $k );
+			delete_transient( 'spf_get_media_' . $k );
 		}
 		return true;
 	}

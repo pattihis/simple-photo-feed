@@ -8,8 +8,8 @@
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * as well as the current version of the plugin.
  *
  * @since      1.0.0
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  * @author     George Pattihis <info@gp-web.dev>
  */
-class Simple_Insta_Feed {
+class Simple_Photo_Feed {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -32,7 +32,7 @@ class Simple_Insta_Feed {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Simple_Insta_Feed_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Simple_Photo_Feed_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -64,26 +64,26 @@ class Simple_Insta_Feed {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'SIF_VERSION' ) ) {
-			$this->version = SIF_VERSION;
+		if ( defined( 'SPF_VERSION' ) ) {
+			$this->version = SPF_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'simple-insta-feed';
+		$this->plugin_name = 'simple-photo-feed';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$options = get_option( 'sif_main_settings', array() );
+		$options = get_option( 'spf_main_settings', array() );
 
 		$options['token']      = $options['token'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
 		$options['cron_time']  = $options['cron_time'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$options['app_id']     = SIF_APP_ID;
-		$options['app_secret'] = SIF_APP_SECRET;
+		$options['app_id']     = SPF_APP_ID;
+		$options['app_secret'] = SPF_APP_SECRET;
 
-		update_option( 'sif_main_settings', $options );
+		update_option( 'spf_main_settings', $options );
 
 	}
 
@@ -102,38 +102,38 @@ class Simple_Insta_Feed {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-insta-feed-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-photo-feed-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-insta-feed-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-photo-feed-i18n.php';
 
 		/**
 		 * The class responsible to fetch and cache the Instagram Feed
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-insta-feed-api.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-photo-feed-api.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-simple-insta-feed-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-simple-photo-feed-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the frontend
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-simple-insta-feed-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-simple-photo-feed-public.php';
 
-		$this->loader = new Simple_Insta_Feed_Loader();
+		$this->loader = new Simple_Photo_Feed_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Simple_Insta_Feed_I18n class in order to set the domain and to register the hook
+	 * Uses the Simple_Photo_Feed_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -141,7 +141,7 @@ class Simple_Insta_Feed {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Simple_Insta_Feed_I18n();
+		$plugin_i18n = new Simple_Photo_Feed_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -156,24 +156,24 @@ class Simple_Insta_Feed {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Simple_Insta_Feed_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Simple_Photo_Feed_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'simple_insta_feed_register_settings' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'simple_insta_feed_admin_menu' );
-		$this->loader->add_filter( 'cron_schedules', $plugin_admin, 'simple_insta_feed_cron_schedule' );
-		$this->loader->add_filter( 'plugin_action_links', $plugin_admin, 'simple_insta_feed_plugin_links', 10, 2 );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'simple_photo_feed_register_settings' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'simple_photo_feed_admin_menu' );
+		$this->loader->add_filter( 'cron_schedules', $plugin_admin, 'simple_photo_feed_cron_schedule' );
+		$this->loader->add_filter( 'plugin_action_links', $plugin_admin, 'simple_photo_feed_plugin_links', 10, 2 );
 
-		$this->loader->add_action( 'wp_ajax_sif_disconnect_user', $plugin_admin, 'sif_disconnect_user' );
-		$this->loader->add_action( 'wp_ajax_sif_clear_insta_cache', $plugin_admin, 'sif_clear_insta_cache' );
+		$this->loader->add_action( 'wp_ajax_spf_disconnect_user', $plugin_admin, 'spf_disconnect_user' );
+		$this->loader->add_action( 'wp_ajax_spf_clear_feed_cache', $plugin_admin, 'spf_clear_feed_cache' );
 
-		$plugin_api = new Simple_Insta_Feed_Api();
+		$plugin_api = new Simple_Photo_Feed_Api();
 
-		$this->loader->add_action( 'simple_instagram_refresh_token', $plugin_api, 'sif_refresh_long_lived_token' );
-		$this->loader->add_action( 'update_option_sif_main_settings', $plugin_api, 'sif_setup_cron_job', 10, 2 );
-		$this->loader->add_action( 'simple_instagram_update_feed', $plugin_api, 'sif_refresh_feed' );
+		$this->loader->add_action( 'simple_photo_refresh_token', $plugin_api, 'spf_refresh_long_lived_token' );
+		$this->loader->add_action( 'update_option_spf_main_settings', $plugin_api, 'spf_setup_cron_job', 10, 2 );
+		$this->loader->add_action( 'simple_photo_update_feed', $plugin_api, 'spf_refresh_feed' );
 
 	}
 
@@ -186,11 +186,11 @@ class Simple_Insta_Feed {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Simple_Insta_Feed_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Simple_Photo_Feed_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 
-		$this->loader->add_shortcode( 'simple-insta-feed', $plugin_public, 'display_simple_insta_feed' );
+		$this->loader->add_shortcode( 'simple-photo-feed', $plugin_public, 'display_simple_photo_feed' );
 
 	}
 
@@ -218,7 +218,7 @@ class Simple_Insta_Feed {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Simple_Insta_Feed_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Simple_Photo_Feed_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

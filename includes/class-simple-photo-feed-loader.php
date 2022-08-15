@@ -5,8 +5,8 @@
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  * @author     George Pattihis <info@gp-web.dev>
  */
-class Simple_Insta_Feed_Loader {
+class Simple_Photo_Feed_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

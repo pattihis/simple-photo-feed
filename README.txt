@@ -1,7 +1,7 @@
-=== Simple Insta Feed ===
+=== Simple Photo Feed for Social Media ===
 Contributors: pattihis
 Donate link: https://profiles.wordpress.org/pattihis/
-Tags: instagram, feed, social, embed
+Tags: photo gallery, instagram, feed, social, embed
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 5.6
@@ -9,11 +9,11 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simple Insta Feed provides an easy way to connect to your Instagram account and display your photos in your WordPress site.
+Simple Photo Feed for Social Media provides an easy way to connect to your Instagram account and display your photos in your WordPress site.
 
 == Description ==
 
-**Simple Insta Feed** is a free WordPress plugin that lets you embed your Instagram photos as a gallery in your website.
+**Simple Photo Feed for Social Media** is a free WordPress plugin that lets you embed your Instagram photos as a gallery in your website.
 
 ### Features
 
@@ -35,23 +35,23 @@ Simple Insta Feed provides an easy way to connect to your Instagram account and 
 
 ### Manual
 
-* Upload the Simple Insta Feed folder to the plugins directory in your WordPress installation
+* Upload the Simple Photo Feed folder to the plugins directory in your WordPress installation
 * Activate the plugin.
-* Navigate to the "Simple Instagram" Menu.
+* Navigate to the "Simple Photo Feed" Menu.
 
 ### Admin Installer via Zip
 
 * Visit the Add New plugin screen and click the "Upload Plugin" button.
 * Click the "Browse…" button and select zip file from your computer.
 * Click the "Install Now" button.
-* Once done uploading, activate Simple Insta Feed.
-* Navigate to the "Simple Instagram" Menu.
+* Once done uploading, activate Simple Photo Feed.
+* Navigate to the "Simple Photo Feed" Menu.
 
 That's it! Now you can easily display Instagram posts in your WordPress from your Instagram account.
 
 == Frequently Asked Questions ==
 
-= When is "Simple Insta Feed" needed?  =
+= When is "Simple Photo Feed" needed?  =
 
 Whenever you want your Instagram posts to be shown as a gallery in your Wordpress website. Increase social engagement, save time by only posting your photos to Instagram and automatically displaying them on your website and keep your site looking fresh.
 
@@ -65,21 +65,21 @@ There are a few common reasons for this:
 
 * Your Access Token may not be valid anymore. Click "Disconnect Account" and re-connect to refresh the connection with Instagram's API.
 * The cached feed may be invalid. Just click the "Clear Cache" button in Settings and the plugin will fetch a fresh feed of media from your Instagram account.
-* You haven't added the shortcode. Add [simple-insta-feed] in a page/post, where you want your instagram feed to be displayed.
+* You haven't added the shortcode. Add [simple-photo-feed] in a page/post, where you want your instagram feed to be displayed.
 
-If you’re still having an issue displaying your feed then please open a ticket in the [Support forum](https://wordpress.org/support/plugin/simple-insta-feed) with a link to the page where you're trying to display the Instagram feed and, if possible, a link to your Instagram account.
+If you’re still having an issue displaying your feed then please open a ticket in the [Support forum](https://wordpress.org/support/plugin/simple-photo-feed) with a link to the page where you're trying to display the Instagram feed and, if possible, a link to your Instagram account.
 
-= Does "Simple Insta Feed" require manual coding or file editing? =
+= Does "Simple Photo Feed" require manual coding or file editing? =
 
 Absolutely not. No technical knowledge is needed at all. With a few clicks your Instagram posts will be synced with your website.
 
 = How do I embed my Instagram Feed directly into a WordPress page template? =
 
-You can embed your Instagram feed directly into a template file by using the WordPress do_shortcode function: `<?php echo do_shortcode('[simple-insta-feed]'); ?>`
+You can embed your Instagram feed directly into a template file by using the WordPress do_shortcode function: `<?php echo do_shortcode('[simple-photo-feed]'); ?>`
 
-= Is "Simple Insta Feed" compatible with my theme/plugins? =
+= Is "Simple Photo Feed" compatible with my theme/plugins? =
 
-Of course! "Simple Insta Feed" is compatible with any theme and plugin that follows WordPress coding standards.
+Of course! "Simple Photo Feed" is compatible with any theme and plugin that follows WordPress coding standards.
 
 == Screenshots ==
 

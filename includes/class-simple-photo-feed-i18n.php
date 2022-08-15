@@ -8,8 +8,8 @@
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  */
 
 /**
@@ -19,11 +19,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/includes
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/includes
  * @author     George Pattihis <info@gp-web.dev>
  */
-class Simple_Insta_Feed_I18n {
+class Simple_Photo_Feed_I18n {
 
 	/**
 	 * Load the plugin text domain for translation.
@@ -33,7 +33,7 @@ class Simple_Insta_Feed_I18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'simple-insta-feed',
+			'simple-photo-feed',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

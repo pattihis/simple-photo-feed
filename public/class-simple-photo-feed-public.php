@@ -5,8 +5,8 @@
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/public
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/public
  */
 
 /**
@@ -15,11 +15,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the frontend stylesheet and JavaScript.
  *
- * @package    Simple_Insta_Feed
- * @subpackage Simple_Insta_Feed/public
+ * @package    Simple_Photo_Feed
+ * @subpackage Simple_Photo_Feed/public
  * @author     George Pattihis <info@gp-web.dev>
  */
-class Simple_Insta_Feed_Public {
+class Simple_Photo_Feed_Public {
 
 	/**
 	 * The ID of this plugin.
@@ -60,19 +60,19 @@ class Simple_Insta_Feed_Public {
 	 */
 	public function enqueue_styles() {
 
-		$css_ver = gmdate( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . './css/simple-insta-feed-public.css' ) );
+		$css_ver = gmdate( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . './css/simple-photo-feed-public.css' ) );
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-insta-feed-public.css', array(), $css_ver, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-photo-feed-public.css', array(), $css_ver, 'all' );
 
 	}
 
 	/**
-	 * Render the shortcode [simple-insta-feed].
+	 * Render the shortcode [simple-photo-feed].
 	 *
 	 * @param array $atts Shortcode attributes.
 	 * @since    1.0.0
 	 */
-	public function display_simple_insta_feed( $atts ) {
+	public function display_simple_photo_feed( $atts ) {
 
 		if ( ! is_array( $atts ) ) {
 			$atts = array();
@@ -93,7 +93,7 @@ class Simple_Insta_Feed_Public {
 		ob_start();
 
 		if ( ! is_admin() ) {
-			include 'partials/simple-insta-feed-public-display.php';
+			include 'partials/simple-photo-feed-public-display.php';
 		}
 
 		return ob_get_clean();
