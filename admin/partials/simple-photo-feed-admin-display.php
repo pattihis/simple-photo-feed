@@ -41,6 +41,12 @@ $auth_error = isset( $_GET['auth_error'], $_GET['reason'], $_GET['nonce'] ) && w
 			? sanitize_text_field( wp_unslash( $_GET['reason'] ) )
 			: false;
 
+$disabled = '';
+if ( empty( $options['app_id'] ) || empty( $options['app_secret'] ) ) {
+	$auth     = '';
+	$disabled = 'disabled';
+}
+
 ?>
 
 <h1 class="spf_main_title"><span class="dashicons dashicons-instagram" style="font-size: 24px;"></span>&nbsp;<?php esc_html_e( 'Simple Photo Feed', 'simple-photo-feed' ); ?></h1>
@@ -50,7 +56,7 @@ $auth_error = isset( $_GET['auth_error'], $_GET['reason'], $_GET['nonce'] ) && w
 	<div class="spf_main_left">
 		<form method="post" action="options.php">
 			<?php settings_fields( 'spf_main_settings' ); ?>
-			<?php echo (bool) $options['auth'] ? '' : '<p>' . esc_html__( 'You need an access token for the official Instagram API. Please click the authorize button below to get one or visit our ', 'simple-photo-feed' ) . '<a href="' . esc_url( $uri ) . '" target="_blank">Token Generator</a></p>'; ?>
+			<?php echo (bool) $options['auth'] ? '' : '<p>' . esc_html__( 'You need an access token for the official Instagram API. Please add your App\'s ID & Secret Key to enable the authorize button below or visit our ', 'simple-photo-feed' ) . '<a href="' . esc_url( $uri ) . '" target="_blank">Token Generator</a></p>'; ?>
 			<div class="spf-dual-ring hidden" id="spf-loader"></div>
 			<table class="form-table">
 				<tbody>
@@ -96,9 +102,21 @@ $auth_error = isset( $_GET['auth_error'], $_GET['reason'], $_GET['nonce'] ) && w
 					}
 					?>
 					<tr>
+						<th><?php esc_html_e( 'App ID', 'simple-photo-feed' ); ?></th>
+						<td>
+							<input type="text" name='spf_main_settings[app_id]' id='spf_app_id' value="<?php echo esc_attr( $options['app_id'] ); ?>" autocomplete="off">
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'App Secret', 'simple-photo-feed' ); ?></th>
+						<td>
+							<input type="text" name='spf_main_settings[app_secret]' id='spf_app_secret' value="<?php echo esc_attr( $options['app_secret'] ); ?>" autocomplete="off">
+						</td>
+					</tr>
+					<tr>
 						<th><?php esc_html_e( 'Authorize Access', 'simple-photo-feed' ); ?></th>
 						<td>
-							<a class="button button-primary" id="spf-admin-authorize" href="<?php echo esc_url( $auth ); ?>">
+							<a class="button button-primary" id="spf-admin-authorize" href="<?php echo esc_url( $auth ); ?>" <?php echo esc_attr( $disabled ); ?>>
 								<?php esc_html_e( 'Connect Account', 'simple-photo-feed' ); ?>
 							</a>
 						</td>

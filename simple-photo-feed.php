@@ -41,16 +41,6 @@ define( 'SPF_VERSION', '1.0.0' );
 define( 'SPF_BASENAME', plugin_basename( __FILE__ ) );
 
 /**
- * Our Instagram App ID
- */
-define( 'SPF_APP_ID', '441876417835861' );
-
-/**
- * Our Instagram App Secret
- */
-define( 'SPF_APP_SECRET', 'a9bbb3ad41c0a797f5e5c880f7edc360' );
-
-/**
  * The code that runs during plugin activation
  */
 function activate_simple_photo_feed() {

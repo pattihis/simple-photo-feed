@@ -36,8 +36,8 @@ class Simple_Photo_Feed_Activator {
 			'user_id'    => '',
 			'auth'       => '',
 			'cron_time'  => '3',
-			'app_id'     => SPF_APP_ID,
-			'app_secret' => SPF_APP_SECRET,
+			'app_id'     => '',
+			'app_secret' => '',
 		);
 
 		// Get existing options if exists.
