@@ -41,11 +41,8 @@ $auth_error = isset( $_GET['auth_error'], $_GET['reason'], $_GET['nonce'] ) && w
 			? sanitize_text_field( wp_unslash( $_GET['reason'] ) )
 			: false;
 
-$disabled = '';
-if ( empty( $options['app_id'] ) || empty( $options['app_secret'] ) ) {
-	$auth     = '';
-	$disabled = 'disabled';
-}
+$auth     = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? '' : $auth;
+$disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? '' : 'disabled';
 
 ?>
 
