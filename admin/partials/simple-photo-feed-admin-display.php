@@ -42,7 +42,7 @@ $auth_error = isset( $_GET['auth_error'], $_GET['reason'], $_GET['nonce'] ) && w
 			: false;
 
 $auth     = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? '' : $auth;
-$disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? '' : 'disabled';
+$disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'disabled' : '';
 
 ?>
 
