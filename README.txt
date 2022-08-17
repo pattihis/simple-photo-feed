@@ -84,6 +84,7 @@ Of course! "Simple Photo Feed" is compatible with any theme and plugin that foll
 == Screenshots ==
 
 1. Plugin Settings Page
+2. Shortcode Usage
 
 == Changelog ==
 
