@@ -1,4 +1,4 @@
-# simple-photo-feed
+# Simple Photo Feed for Instagram
 
 _A WordPress plugin to connect to your Instagram account_
 
@@ -6,13 +6,13 @@ _A WordPress plugin to connect to your Instagram account_
 
 ![Simple Photo Feed - Overview Page](https://ps.w.org/simple-photo-feed/assets/screenshot-1.jpg)
 
-**Simple CPT** is a free WordPress plugin that lets you embed your Instagram photos as a gallery in your website.
+**Simple Photo Feed** is a free WordPress plugin that lets you embed your Instagram photos as a gallery in your website.
 
-### WordPress.org
+### Published at WordPress official repository
 
-* Download it: https://wordpress.org/plugins/simple-photo-feed/
-* Browse code: https://plugins.trac.wordpress.org/browser/simple-photo-feed/
-* Revision Log: https://plugins.trac.wordpress.org/log/simple-photo-feed/
+* [Download it from WordPress.org](https://wordpress.org/plugins/simple-photo-feed/)
+* [Browse source code](https://plugins.trac.wordpress.org/browser/simple-photo-feed/)
+* [Revisions & Changelog](https://plugins.trac.wordpress.org/log/simple-photo-feed/)
 
 ### Features
 
