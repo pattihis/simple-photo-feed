@@ -80,8 +80,8 @@ class Simple_Photo_Feed {
 
 		$options['token']      = $options['token'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
 		$options['cron_time']  = $options['cron_time'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$options['app_id']     = $options['app_id'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$options['app_secret'] = $options['app_secret'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
+		$options['app_id']     = $options['app_id'] ?: '441876417835861'; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
+		$options['app_secret'] = $options['app_secret'] ?: 'a9bbb3ad41c0a797f5e5c880f7edc360'; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
 
 		update_option( 'spf_main_settings', $options );
 
