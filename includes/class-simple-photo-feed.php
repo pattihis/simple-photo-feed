@@ -67,7 +67,7 @@ class Simple_Photo_Feed {
 		if ( defined( 'SPF_VERSION' ) ) {
 			$this->version = SPF_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '1.0.1';
 		}
 		$this->plugin_name = 'simple-photo-feed';
 

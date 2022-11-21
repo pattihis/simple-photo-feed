@@ -167,7 +167,7 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 		</div>
 		<div>
 			<?php esc_html_e( 'Smaller thumbnails, more columns:', 'simple-photo-feed' ); ?>
-			<pre>[simple-photo-feed view="12" text="on" size="small"]</pre>
+			<pre>[simple-photo-feed view="12" size="small"]</pre>
 		</div>
 	</div>
 

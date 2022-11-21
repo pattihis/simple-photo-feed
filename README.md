@@ -16,8 +16,8 @@ _A WordPress plugin to connect to your Instagram account_
 
 ### Features
 
-* Easy embed feature that to display Instagram posts from your Instagram account
-* Super simple to set up
+* Easy embed feature to display Instagram posts from your account.
+* Super simple to set up - No coding or editing files!
 * Completely responsive and mobile ready – layout looks great on any screen size and in any container width
 * Customizable – Customize the number of photos, number of columns, image size and captions display!
 * Use the built-in shortcode options to completely customize your Instagram feed

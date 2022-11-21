@@ -138,12 +138,12 @@ msgid "Show your captions (on/off):"
 msgstr ""
 
 #. Name of the plugin
-msgid "Simple Photo Feed for Social Media"
+msgid "Simple Photo Feed for Instagram"
 msgstr ""
 
 #. Description of the plugin
 msgid ""
-"Simple Photo Feed for Social Media provides an easy way to connect to your Instagram account "
+"Simple Photo Feed for Instagram provides an easy way to connect to your Instagram account "
 "and display your photos in your WordPress site."
 msgstr ""
 

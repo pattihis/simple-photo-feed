@@ -1,6 +1,6 @@
 <?php
 /**
- * Simple Photo Feed for Social Media
+ * Simple Photo Feed for Instagram
  *
  * @package           Simple_Photo_Feed
  * @author            George Pattihis
@@ -10,12 +10,12 @@
  * @since             1.0.0
  *
  * @wordpress-plugin
- * Plugin Name:       Simple Photo Feed for Social Media
+ * Plugin Name:       Simple Photo Feed for Instagram
  * Plugin URI:        https://wordpress.org/plugins/simple-photo-feed/
- * Description:       Simple Photo Feed for Social Media provides an easy way to connect to your Instagram account and display your photos in your WordPress site.
- * Version:           1.0.0
+ * Description:       Simple Photo Feed for Instagram provides an easy way to connect to your Instagram account and display your photos in your WordPress site.
+ * Version:           1.0.1
  * Requires at least: 5.0
- * Tested up to:      6.0
+ * Tested up to:      6.1.1
  * Requires PHP:      5.6
  * Author:            George Pattihis
  * Author URI:        https://profiles.wordpress.org/pattihis/
@@ -33,7 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current plugin version
  */
-define( 'SPF_VERSION', '1.0.0' );
+define( 'SPF_VERSION', '1.0.1' );
 
 /**
  * Plugin's basename

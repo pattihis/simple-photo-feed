@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class Simple_Photo_Feed_Api
  *
@@ -47,7 +48,6 @@ class Simple_Photo_Feed_Api {
 			'long_lived'    => 'https://graph.instagram.com/access_token',
 			'refresh_token' => 'https://graph.instagram.com/refresh_access_token/',
 		);
-
 	}
 
 	/**
@@ -195,8 +195,9 @@ class Simple_Photo_Feed_Api {
 	 */
 	public function spf_get_media() {
 
-		$options = get_option( 'spf_main_settings', array() );
-		$data    = get_transient( 'spf_get_media_' . $options['cron_time'] );
+		$options   = get_option( 'spf_main_settings', array() );
+		$data      = get_transient( 'spf_get_media_' . $options['cron_time'] );
+		$cron_time = $options['cron_time'] ?: '3';
 		if ( false === $data ) {
 			$response = wp_remote_get( $this->api['root'] . 'me/media?fields=id,caption,media_type,media_url,children{media_url,thumbnail_url},permalink,thumbnail_url,timestamp&access_token=' . $options['token'] . '&limit=100' );
 			if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
@@ -204,7 +205,7 @@ class Simple_Photo_Feed_Api {
 				$data  = $media->data;
 			}
 
-			set_transient( 'spf_get_media_' . $options['cron_time'], $data, $options['cron_time'] * HOUR_IN_SECONDS );
+			set_transient( 'spf_get_media_' . $cron_time, $data, (int) $cron_time * HOUR_IN_SECONDS );
 		}
 
 		return $data;
@@ -250,7 +251,6 @@ class Simple_Photo_Feed_Api {
 		} else {
 
 			wp_clear_scheduled_hook( 'simple_photo_update_feed' );
-
 		}
 	}
 
@@ -267,6 +267,4 @@ class Simple_Photo_Feed_Api {
 
 		return $success;
 	}
-
-
 }
