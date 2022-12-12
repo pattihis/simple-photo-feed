@@ -5,7 +5,7 @@ Tags: photo gallery, instagram, feed, social, embed
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,8 +17,8 @@ Simple Photo Feed for Instagram provides an easy way to connect to your Instagra
 
 ### Features
 
-* Easy embed feature that to display Instagram posts from your Instagram account
-* Super simple to set up
+* Easy embed feature to display Instagram posts from your account.
+* Super simple to set up - No coding or editing files!
 * Completely responsive and mobile ready – layout looks great on any screen size and in any container width
 * Customizable – Customize the number of photos, number of columns, image size and captions display!
 * Use the built-in shortcode options to completely customize your Instagram feed
@@ -87,6 +87,9 @@ Of course! "Simple Photo Feed" is compatible with any theme and plugin that foll
 2. Shortcode Usage
 
 == Changelog ==
+
+= 1.0.2 =
+* CSS fix
 
 = 1.0.1 =
 * Update to support latest WP version
