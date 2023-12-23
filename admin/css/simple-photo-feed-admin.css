@@ -1,181 +1,181 @@
 .spf_main_wrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    max-width: 1080px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1080px;
 }
 
 .spf_main_left {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0 2%;
-    flex-basis: 54%;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0 2%;
+  flex-basis: 54%;
 }
 
 .spf_main_right {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 20px 2%;
-    flex-basis: 36%;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px 2%;
+  flex-basis: 36%;
 }
 
 .spf_main_right pre {
-    background: #f1f2f3;
-    padding: 0.5rem;
+  background: #f1f2f3;
+  padding: 0.5rem;
 }
 
 .spf_main_left input[type="text"] {
-    min-width: 300px;
-    width: 100%;
-    display: block;
+  min-width: 300px;
+  width: 100%;
+  display: block;
 }
 
 .spf_main_left .form-table th {
-    width: 120px;
+  width: 120px;
 }
 
 .spf_main_bottom {
-    flex-grow: 1;
-    text-align: right;
+  flex-grow: 1;
+  text-align: right;
 }
 
 a.spf_profile_link.button-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 a.spf_profile_link.button-primary .dashicons {
-    font-size: 16px;
-    margin-right: 6px;
-    width: 16px;
-    height: 16px;
-    display: block;
+  font-size: 16px;
+  margin-right: 6px;
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 table.spf_profile {
-    margin: 0.5rem 0;
-    width: 100%;
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    border-radius: 0.25rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 table.spf_profile th {
-    color: #5851db;
-    padding: 0;
+  color: #5851db;
+  padding: 0;
 }
 
 table.spf_profile td {
-    padding: 0;
-    color: #833ab4;
+  padding: 0;
+  color: #833ab4;
 }
 
 .spf_profile_row.hidden {
-    display: none;
+  display: none;
 }
 
 .spf-dual-ring.hidden {
-    display: none;
+  display: none;
 }
 
 .spf-dual-ring {
-    display: inline-block;
-    width: 90px;
-    height: 90px;
+  display: inline-block;
+  width: 90px;
+  height: 90px;
 }
 
 .spf-dual-ring:after {
-    content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 16px;
-    border-radius: 50%;
-    border: 6px solid #5851db;
-    border-color: #833ab4 transparent #5851db transparent;
-    animation: spf-dual-ring 1.2s linear infinite;
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 16px;
+  border-radius: 50%;
+  border: 6px solid #5851db;
+  border-color: #833ab4 transparent #5851db transparent;
+  animation: spf-dual-ring 1.2s linear infinite;
 }
 
 .spf-dual-ring#spf-loader-small {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .spf-dual-ring#spf-loader-small:after {
-    width: 32px;
-    height: 32px;
-    margin: 8px;
+  width: 32px;
+  height: 32px;
+  margin: 8px;
 }
 
 .spf_main_left .notice-error,
 .spf_main_left .notice-warning {
-    margin: 0;
-    padding: 0.6rem;
+  margin: 0;
+  padding: 0.6rem;
 }
 
 @keyframes spf-dual-ring {
-    0% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
 
-    100% {
-        transform: rotate(360deg);
-    }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .spf_main_wrap .button-primary {
-    background: #5851db;
-    border-color: #5851db;
-    border-radius: 0.25rem;
+  background: #5851db;
+  border-color: #5851db;
+  border-radius: 0.25rem;
 }
 
 .spf_main_wrap .button-secondary {
-    color: #5851db;
-    border-color: #5851db;
-    border-radius: 0.25rem;
+  color: #5851db;
+  border-color: #5851db;
+  border-radius: 0.25rem;
 }
 
 .spf_main_wrap .button-primary:hover,
 .spf_main_wrap .button-secondary:hover {
-    background: #833ab4;
-    border-color: #833ab4;
-    color: #fff;
+  background: #833ab4;
+  border-color: #833ab4;
+  color: #fff;
 }
 
 .spf_main_title,
 .spf_main_right h2 {
-    color: #2821ab;
+  color: #2821ab;
 }
 
 .spf_main_right h3 {
-    color: #5851db;
+  color: #5851db;
 }
 
 .spf_main_title .dashicons:before,
 .spf_main_right .dashicons:before {
-    background: -moz-linear-gradient(top, #833ab4 0%, #5851db 100%);
-    background: -webkit-linear-gradient(top, #833ab4 0%, #5851db 100%);
-    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background: -moz-linear-gradient(top, #833ab4 0%, #5851db 100%);
+  background: -webkit-linear-gradient(top, #833ab4 0%, #5851db 100%);
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @media only screen and (max-width: 1080px) {
-    .spf_main_wrap {
-        flex-direction: column;
-    }
+  .spf_main_wrap {
+    flex-direction: column;
+  }
 
-    .spf_main_left,
-    .spf_main_right {
-        margin: 0 20px 20px 0;
-        flex-basis: 100%;
-    }
+  .spf_main_left,
+  .spf_main_right {
+    margin: 0 20px 20px 0;
+    flex-basis: 100%;
+  }
 
-    .spf_main_bottom {
-        margin: 0 20px 0 0;
-    }
+  .spf_main_bottom {
+    margin: 0 20px 0 0;
+  }
 }
