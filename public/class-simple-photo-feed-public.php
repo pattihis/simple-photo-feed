@@ -17,7 +17,7 @@
  *
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/public
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed_Public {
 
@@ -50,7 +50,6 @@ class Simple_Photo_Feed_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
 	}
 
 	/**
@@ -63,7 +62,6 @@ class Simple_Photo_Feed_Public {
 		$css_ver = gmdate( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . './css/simple-photo-feed-public.css' ) );
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-photo-feed-public.css', array(), $css_ver, 'all' );
-
 	}
 
 	/**
@@ -98,5 +96,4 @@ class Simple_Photo_Feed_Public {
 
 		return ob_get_clean();
 	}
-
 }

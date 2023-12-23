@@ -17,7 +17,7 @@
  * @since      1.0.0
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/includes
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed_Admin {
 
@@ -50,7 +50,6 @@ class Simple_Photo_Feed_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
 	}
 
 	/**
@@ -61,7 +60,6 @@ class Simple_Photo_Feed_Admin {
 	public function enqueue_styles() {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-photo-feed-admin.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -80,7 +78,6 @@ class Simple_Photo_Feed_Admin {
 				'theme_uri' => get_stylesheet_directory_uri(),
 			)
 		);
-
 	}
 
 	/**
@@ -99,7 +96,6 @@ class Simple_Photo_Feed_Admin {
 			'dashicons-instagram',
 			25
 		);
-
 	}
 
 	/**
@@ -123,7 +119,6 @@ class Simple_Photo_Feed_Admin {
 	public function simple_photo_feed_register_settings() {
 
 		register_setting( 'spf_main_settings', 'spf_main_settings' );
-
 	}
 
 	/**
@@ -145,7 +140,6 @@ class Simple_Photo_Feed_Admin {
 		}
 
 		return $links;
-
 	}
 
 	/**
@@ -173,7 +167,6 @@ class Simple_Photo_Feed_Admin {
 			);
 		}
 		return $schedules;
-
 	}
 
 	/**
@@ -193,7 +186,6 @@ class Simple_Photo_Feed_Admin {
 		);
 
 		return (array) apply_filters( 'spf_cron_times', $times );
-
 	}
 
 	/**
@@ -248,5 +240,4 @@ class Simple_Photo_Feed_Admin {
 		}
 		return true;
 	}
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class Simple_Photo_Feed_Api
  *
@@ -18,7 +17,7 @@
  * @since      1.0.0
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/includes
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed_Api {
 
@@ -141,20 +140,23 @@ class Simple_Photo_Feed_Api {
 	 */
 	public function spf_get_account() {
 
-		$options  = get_option( 'spf_main_settings', array() );
-		$response = wp_remote_get( $this->api['root'] . 'me?fields=account_type,id,username,media_count&access_token=' . $options['token'] );
-		$body     = json_decode( wp_remote_retrieve_body( $response ) );
+		$options = get_option( 'spf_main_settings', array() );
+		if ( ! empty( $options['token'] ) ) :
+			$response = wp_remote_get( $this->api['root'] . 'me?fields=account_type,id,username,media_count&access_token=' . $options['token'] );
+			$body     = json_decode( wp_remote_retrieve_body( $response ) );
 
-		if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
-			return $body;
-		} else {
-			if ( 'Application does not have permission for this action' === $body->error->message ) {
-				$response = wp_remote_get( $this->api['root'] . 'me?fields=account_type,id,username&access_token=' . $options['token'] );
-				return json_decode( wp_remote_retrieve_body( $response ) );
-			} else {
+			if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
 				return $body;
+			} else {
+				if ( 'Application does not have permission for this action' === $body->error->message ) {
+					$response = wp_remote_get( $this->api['root'] . 'me?fields=account_type,id,username&access_token=' . $options['token'] );
+					return json_decode( wp_remote_retrieve_body( $response ) );
+				} else {
+					return $body;
+				}
 			}
-		}
+		endif;
+
 		return json_decode( 'Error! Something went wrong.' );
 	}
 
@@ -197,7 +199,7 @@ class Simple_Photo_Feed_Api {
 
 		$options   = get_option( 'spf_main_settings', array() );
 		$data      = get_transient( 'spf_get_media_' . $options['cron_time'] );
-		$cron_time = $options['cron_time'] ?: '3';
+		$cron_time = $options['cron_time'] ? $options['cron_time'] : '3';
 		if ( false === $data ) {
 			$response = wp_remote_get( $this->api['root'] . 'me/media?fields=id,caption,media_type,media_url,children{media_url,thumbnail_url},permalink,thumbnail_url,timestamp&access_token=' . $options['token'] . '&limit=100' );
 			if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {

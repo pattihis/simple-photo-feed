@@ -46,15 +46,14 @@ function simple_photo_feed_cleanup() {
 
 	// Delete our transients.
 	global $wpdb;
-	// phpcs:disable
+
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	$trans = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM $wpdb->options WHERE option_name LIKE '%spf_get_media_%'" );
 	foreach ( $trans as $t ) {
 		delete_transient( $t->name );
 	}
-	// phpcs:enable
 
 	// Clear our cron jobs.
 	wp_clear_scheduled_hook( 'simple_photo_update_feed' );
 	wp_clear_scheduled_hook( 'simple_photo_refresh_token' );
-
 }

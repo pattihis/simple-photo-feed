@@ -19,32 +19,36 @@ $api     = new Simple_Photo_Feed_Api();
 $media   = $api->spf_get_media();
 $profile = $api->spf_get_account();
 
-?>
+if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 
-<div class="spf_container spf_size_<?php echo esc_attr( $size ); ?>">
-	<?php
-	if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
-		foreach ( $media as $i => $p ) :
-			if ( $i === $limit ) {
-				break;
-			}
-			?>
-			<?php if ( 'on' === $text ) : ?>
-			<div class="spf_item_wrap">
-			<?php endif; ?>
-				<div class="spf_item">
-					<a href="<?php echo esc_url( $p->permalink ); ?>" target="_blank" title="<?php echo esc_attr( $p->caption ); ?>">
-						<img src="<?php echo 'VIDEO' !== $p->media_type ? esc_url( $p->media_url ) : esc_url( $p->thumbnail_url ); ?>" alt="" />
-					</a>
-				</div>
-			<?php if ( 'on' === $text ) : ?>
-				<div class="spf_caption"><?php echo esc_html( $p->caption ); ?></div>
-			</div>
-			<?php endif; ?>
-			<?php
-		endforeach;
-	else :
-		echo '<h5>' . esc_html__( 'Please authorize Simple Photo Feed plugin.', 'simple-photo-feed' ) . '</h5>';
-	endif;
-	?>
-</div>
+	echo '<div class="spf_container spf_size_' . esc_attr( $size ) . '">';
+
+	foreach ( $media as $i => $p ) :
+		if ( $i === $limit ) {
+			break;
+		}
+
+		$url     = 'VIDEO' !== $p->media_type ? $p->media_url : $p->thumbnail_url;
+		$caption = property_exists( $p, 'caption' ) ? $p->caption : esc_html__( 'No caption.', 'simple-photo-feed' );
+
+		if ( 'on' === $text ) {
+			echo '<div class="spf_item_wrap">';
+		}
+
+		echo '<div class="spf_item">';
+		echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" title="' . esc_attr( $caption ) . '"><img src="' . esc_url( $url ) . '" alt="" /></a>';
+		echo '</div>';
+
+		if ( 'on' === $text ) {
+			echo '<div class="spf_caption">' . esc_html( $caption ) . '</div>';
+			echo '</div>';
+		}
+	endforeach;
+
+	echo '</div>';
+
+else :
+
+	echo '<h6>' . esc_html__( 'Please authorize Simple Photo Feed plugin.', 'simple-photo-feed' ) . '</h6>';
+
+endif;

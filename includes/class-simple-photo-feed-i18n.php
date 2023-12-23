@@ -21,7 +21,7 @@
  * @since      1.0.0
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/includes
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed_I18n {
 
@@ -37,8 +37,5 @@ class Simple_Photo_Feed_I18n {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
-
 	}
-
-
 }

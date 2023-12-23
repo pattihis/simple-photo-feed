@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Simple Photo Feed\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-15 15:01+0000\n"
+"POT-Creation-Date: 2023-12-23 06:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,88 +16,96 @@ msgstr ""
 "X-Loco-Version: 2.6.2; wp-6.0.1\n"
 "X-Domain: simple-photo-feed"
 
-#: admin/partials/simple-photo-feed-admin-display.php:94
+#: admin/partials/simple-photo-feed-admin-display.php:96
 msgid "Access denied by user. Please try again below."
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:107
+#: admin/partials/simple-photo-feed-admin-display.php:121
 msgid "Access Token"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:99
+#: admin/partials/simple-photo-feed-admin-display.php:101
+msgid "App ID"
+msgstr ""
+
+#: admin/partials/simple-photo-feed-admin-display.php:107
+msgid "App Secret"
+msgstr ""
+
+#: admin/partials/simple-photo-feed-admin-display.php:113
 msgid "Authorize Access"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:230
+#: admin/class-simple-photo-feed-admin.php:222
 msgid "Cache Cleared!"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:146
+#: admin/partials/simple-photo-feed-admin-display.php:160
 msgid "Choose how many images to show (1-100):"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:102
+#: admin/partials/simple-photo-feed-admin-display.php:116
 msgid "Connect Account"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:47
+#: admin/partials/simple-photo-feed-admin-display.php:50
 msgid ""
 "Connect an Instagram account and display its feed in your WordPress site."
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:68
+#: admin/partials/simple-photo-feed-admin-display.php:70
 msgid "Connected"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:142
+#: admin/class-simple-photo-feed-admin.php:137
 msgid "Contact"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:86
+#: admin/partials/simple-photo-feed-admin-display.php:88
 msgid "Disconnect Account"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:216
+#: admin/class-simple-photo-feed-admin.php:208
 msgid "Error! Something went wrong..."
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:191
+#: admin/class-simple-photo-feed-admin.php:184
 msgid "Every 12h"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:188
+#: admin/class-simple-photo-feed-admin.php:181
 msgid "Every 1h"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:192
+#: admin/class-simple-photo-feed-admin.php:185
 msgid "Every 24h"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:189
+#: admin/class-simple-photo-feed-admin.php:182
 msgid "Every 3h"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:190
+#: admin/class-simple-photo-feed-admin.php:183
 msgid "Every 6h"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:125
+#: admin/partials/simple-photo-feed-admin-display.php:139
 msgid "Feed Cache"
 msgstr ""
 
 #. Author of the plugin
-msgid "George Pattihis"
+msgid "George Pattichis"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:160
+#: admin/partials/simple-photo-feed-admin-display.php:174
 msgid "give us a review "
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:63
+#: admin/partials/simple-photo-feed-admin-display.php:66
 msgid "Grant missing permission"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:140
+#: admin/partials/simple-photo-feed-admin-display.php:154
 msgid "How to use"
 msgstr ""
 
@@ -109,32 +117,41 @@ msgstr ""
 msgid "https://wordpress.org/plugins/simple-photo-feed/"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:160
+#: admin/partials/simple-photo-feed-admin-display.php:174
 msgid "If you like this free plugin then please"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:63
+#: admin/partials/simple-photo-feed-admin-display.php:66
 msgid "Limited Access"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:80
+#: admin/partials/simple-photo-feed-admin-display.php:82
 msgid "No Access!"
 msgstr ""
 
-#: public/partials/simple-photo-feed-public-display.php:47
-msgid "Please authorize instagram plugin."
+#: public/partials/simple-photo-feed-public-display.php:33
+msgid "No caption."
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:135
+#: public/partials/simple-photo-feed-public-display.php:53
+msgid "Please authorize Simple Photo Feed plugin."
+msgstr ""
+
+#: admin/partials/simple-photo-feed-admin-display.php:149
 msgid "Save options"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:141
+#: admin/class-simple-photo-feed-admin.php:136
 msgid "Settings"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:150
+#: admin/partials/simple-photo-feed-admin-display.php:164
 msgid "Show your captions (on/off):"
+msgstr ""
+
+#: admin/class-simple-photo-feed-admin.php:92
+#: admin/partials/simple-photo-feed-admin-display.php:49
+msgid "Simple Photo Feed"
 msgstr ""
 
 #. Name of the plugin
@@ -143,54 +160,46 @@ msgstr ""
 
 #. Description of the plugin
 msgid ""
-"Simple Photo Feed for Instagram provides an easy way to connect to your Instagram account "
-"and display your photos in your WordPress site."
+"Simple Photo Feed for Instagram provides an easy way to connect to your "
+"Instagram account and display your photos in your WordPress site."
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:95
-msgid "Simple Photo Feed"
-msgstr ""
-
-#: admin/partials/simple-photo-feed-admin-display.php:46
-msgid "Simple Photo Feed"
-msgstr ""
-
-#: admin/class-simple-photo-feed-admin.php:94
+#: admin/class-simple-photo-feed-admin.php:91
 msgid "Simple Photo Feed Settings"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:154
+#: admin/partials/simple-photo-feed-admin-display.php:168
 msgid "Smaller thumbnails, more columns:"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:63
+#: admin/partials/simple-photo-feed-admin-display.php:66
 msgid ""
 "To get access to all plugin's functionalities, please click the button below "
 "to grant additional permission."
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:115
+#: admin/partials/simple-photo-feed-admin-display.php:129
 msgid "Update Feed"
 msgstr ""
 
-#: admin/class-simple-photo-feed-admin.php:214
+#: admin/class-simple-photo-feed-admin.php:206
 msgid "User Disconnected. Redirecting..."
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:110
+#: admin/partials/simple-photo-feed-admin-display.php:124
 msgid "You can also get a token at our "
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:142
+#: admin/partials/simple-photo-feed-admin-display.php:156
 msgid "You can use the shortcode below in your Posts/Pages:"
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:53
+#: admin/partials/simple-photo-feed-admin-display.php:56
 msgid ""
 "You need an access token for the official Instagram API. Please click the "
 "authorize button below to get one or visit our "
 msgstr ""
 
-#: admin/partials/simple-photo-feed-admin-display.php:62
+#: admin/partials/simple-photo-feed-admin-display.php:65
 msgid "You've approved access to your profile info but not to your media"
 msgstr ""

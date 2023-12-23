@@ -22,7 +22,7 @@
  * @since      1.0.0
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/includes
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed {
 
@@ -67,7 +67,7 @@ class Simple_Photo_Feed {
 		if ( defined( 'SPF_VERSION' ) ) {
 			$this->version = SPF_VERSION;
 		} else {
-			$this->version = '1.0.2';
+			$this->version = '1.1.0';
 		}
 		$this->plugin_name = 'simple-photo-feed';
 
@@ -84,7 +84,6 @@ class Simple_Photo_Feed {
 		$options['app_secret'] = $options['app_secret'] ?: 'a9bbb3ad41c0a797f5e5c880f7edc360'; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
 
 		update_option( 'spf_main_settings', $options );
-
 	}
 
 	/**
@@ -127,7 +126,6 @@ class Simple_Photo_Feed {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-simple-photo-feed-public.php';
 
 		$this->loader = new Simple_Photo_Feed_Loader();
-
 	}
 
 	/**
@@ -144,7 +142,6 @@ class Simple_Photo_Feed {
 		$plugin_i18n = new Simple_Photo_Feed_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -174,7 +171,6 @@ class Simple_Photo_Feed {
 		$this->loader->add_action( 'simple_photo_refresh_token', $plugin_api, 'spf_refresh_long_lived_token' );
 		$this->loader->add_action( 'update_option_spf_main_settings', $plugin_api, 'spf_setup_cron_job', 10, 2 );
 		$this->loader->add_action( 'simple_photo_update_feed', $plugin_api, 'spf_refresh_feed' );
-
 	}
 
 	/**
@@ -191,7 +187,6 @@ class Simple_Photo_Feed {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 
 		$this->loader->add_shortcode( 'simple-photo-feed', $plugin_public, 'display_simple_photo_feed' );
-
 	}
 
 	/**
@@ -233,5 +228,4 @@ class Simple_Photo_Feed {
 	public function get_version() {
 		return $this->version;
 	}
-
 }

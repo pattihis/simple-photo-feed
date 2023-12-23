@@ -17,7 +17,7 @@
  * @since      1.0.0
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/includes
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed_Deactivator {
 
@@ -31,7 +31,5 @@ class Simple_Photo_Feed_Deactivator {
 	public static function deactivate() {
 
 		wp_clear_scheduled_hook( 'simple_photo_refresh_token' );
-
 	}
-
 }

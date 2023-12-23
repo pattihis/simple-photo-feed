@@ -1,1 +1,2 @@
-<?php // phpcs:ignore Squiz.Commenting.FileComment.Missing
+<?php //phpcs:ignore
+// Silence is golden

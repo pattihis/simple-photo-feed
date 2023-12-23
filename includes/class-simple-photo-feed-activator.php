@@ -17,7 +17,7 @@
  * @since      1.0.0
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/includes
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed_Activator {
 
@@ -29,6 +29,8 @@ class Simple_Photo_Feed_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+
+		delete_option( 'spf_main_settings' );
 
 		// Default settings for our plugin.
 		$options = array(
@@ -58,7 +60,5 @@ class Simple_Photo_Feed_Activator {
 		if ( ! wp_next_scheduled( 'simple_photo_refresh_token' ) ) {
 			wp_schedule_event( time(), 'weekly', 'simple_photo_refresh_token' );
 		}
-
 	}
-
 }

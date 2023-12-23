@@ -18,7 +18,7 @@
  *
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/includes
- * @author     George Pattihis <info@gp-web.dev>
+ * @author     George Pattichis <info@gp-web.dev>
  */
 class Simple_Photo_Feed_Loader {
 
@@ -41,6 +41,15 @@ class Simple_Photo_Feed_Loader {
 	protected $filters;
 
 	/**
+	 * The array of shortcodes registered with WordPress.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      array    $shortcodes    The shortcodes registered with WordPress to fire when the plugin loads.
+	 */
+	protected $shortcodes;
+
+	/**
 	 * Initialize the collections used to maintain the actions and filters.
 	 *
 	 * @since    1.0.0
@@ -50,7 +59,6 @@ class Simple_Photo_Feed_Loader {
 		$this->actions    = array();
 		$this->filters    = array();
 		$this->shortcodes = array();
-
 	}
 
 	/**
@@ -120,7 +128,6 @@ class Simple_Photo_Feed_Loader {
 		);
 
 		return $hooks;
-
 	}
 
 	/**
@@ -141,7 +148,5 @@ class Simple_Photo_Feed_Loader {
 		foreach ( $this->shortcodes as $hook ) {
 			add_shortcode( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
-
 	}
-
 }

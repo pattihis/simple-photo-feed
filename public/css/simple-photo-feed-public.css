@@ -6,6 +6,7 @@
     padding: 1rem;
     white-space: normal;
 }
+
 .spf_container.spf_size_small {
     grid-template-columns: repeat(5, 1fr);
 }
@@ -17,13 +18,14 @@
 }
 
 .spf_container.spf_size_small .spf_item {
-    padding-bottom: 56%;
+    padding-bottom: 70%;
 }
 
 .spf_container .spf_item img {
     position: absolute;
     top: 0;
     left: 0;
+    margin: 0;
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -35,8 +37,6 @@
 }
 
 .spf_caption {
-    background: rgba(0, 0, 0, 0.85);
-    color: #f0f0f0;
     font-size: 11px;
     padding: 0.5rem;
 }
@@ -45,6 +45,7 @@
     .spf_container {
         grid-template-columns: 1fr 1fr;
     }
+
     .spf_container.spf_size_small {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -54,6 +55,7 @@
     .spf_container {
         grid-template-columns: 1fr;
     }
+
     .spf_container.spf_size_small {
         grid-template-columns: 1fr 1fr;
     }
