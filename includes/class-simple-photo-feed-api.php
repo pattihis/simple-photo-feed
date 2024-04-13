@@ -84,7 +84,7 @@ class Simple_Photo_Feed_Api {
 		$options = get_option( 'spf_main_settings', array() );
 		$args    = array(
 			'method'    => 'POST',
-			'timeout'   => 45,
+			'timeout'   => 30, // phpcs:ignore
 			'sslverify' => false,
 			'body'      => array(
 				'client_id'     => $options['app_id'],
@@ -147,13 +147,11 @@ class Simple_Photo_Feed_Api {
 
 			if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
 				return $body;
-			} else {
-				if ( 'Application does not have permission for this action' === $body->error->message ) {
+			} elseif ( 'Application does not have permission for this action' === $body->error->message ) {
 					$response = wp_remote_get( $this->api['root'] . 'me?fields=account_type,id,username&access_token=' . $options['token'] );
 					return json_decode( wp_remote_retrieve_body( $response ) );
-				} else {
-					return $body;
-				}
+			} else {
+				return $body;
 			}
 		endif;
 
@@ -200,7 +198,7 @@ class Simple_Photo_Feed_Api {
 		$options   = get_option( 'spf_main_settings', array() );
 		$data      = get_transient( 'spf_get_media_' . $options['cron_time'] );
 		$cron_time = $options['cron_time'] ? $options['cron_time'] : '3';
-		if ( false === $data ) {
+		if ( false === $data || empty( $data ) || ! is_array( $data ) ) {
 			$response = wp_remote_get( $this->api['root'] . 'me/media?fields=id,caption,media_type,media_url,children{media_url,thumbnail_url},permalink,thumbnail_url,timestamp&access_token=' . $options['token'] . '&limit=100' );
 			if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
 				$media = json_decode( wp_remote_retrieve_body( $response ) );

@@ -3,9 +3,9 @@ Contributors: pattihis
 Donate link: https://profiles.wordpress.org/pattihis/
 Tags: photo gallery, instagram, feed, social, embed
 Requires at least: 5.3.0
-Tested up to: 6.4.2
+Tested up to: 6.5.2
 Requires PHP: 7.2
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,10 @@ Of course! "Simple Photo Feed" is compatible with any theme and plugin that foll
 2. Shortcode Usage
 
 == Changelog ==
+
+= 1.2.0 =
+* Compatibility with WordPress 6.5
+* Fix feed cache when empty transient
 
 = 1.1.0 =
 * Compatibility with WordPress 6.4

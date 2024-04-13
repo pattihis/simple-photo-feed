@@ -87,7 +87,7 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 								<a class="button button-secondary" id="spf-admin-deauthorize" href="#">
 									<?php esc_html_e( 'Disconnect Account', 'simple-photo-feed' ); ?>
 								</a>
-								<input type="hidden" name="spf_main_settings[token]" id="spf_token" value="<?php echo esc_html( $options['token'] ); ?>">
+								<input type="hidden" name="spf_main_settings[token]" id="spf_token" value="<?php echo esc_attr( $options['token'] ); ?>">
 							</td>
 						</tr>
 					<?php else : ?>
@@ -144,8 +144,8 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 					</tr>
 				</tbody>
 			</table>
-			<input type="hidden" name="spf_main_settings[user_id]" id="spf_user_id" value="<?php echo esc_html( $options['user_id'] ); ?>">
-			<input type="hidden" name="spf_main_settings[auth]" id="spf_auth" value="<?php echo esc_html( $options['auth'] ); ?>">
+			<input type="hidden" name="spf_main_settings[user_id]" id="spf_user_id" value="<?php echo esc_attr( $options['user_id'] ); ?>">
+			<input type="hidden" name="spf_main_settings[auth]" id="spf_auth" value="<?php echo esc_attr( $options['auth'] ); ?>">
 			<?php submit_button( __( 'Save options', 'simple-photo-feed' ), 'button button-primary button-large' ); ?>
 		</form><!-- /.form -->
 	</div>

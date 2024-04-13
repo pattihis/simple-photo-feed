@@ -117,11 +117,11 @@ table.spf_profile td {
 
 @keyframes spf-dual-ring {
   0% {
-    transform: rotate(0deg);
+	transform: rotate(0deg);
   }
 
   100% {
-    transform: rotate(360deg);
+	transform: rotate(360deg);
   }
 }
 
@@ -166,16 +166,16 @@ table.spf_profile td {
 
 @media only screen and (max-width: 1080px) {
   .spf_main_wrap {
-    flex-direction: column;
+	flex-direction: column;
   }
 
   .spf_main_left,
   .spf_main_right {
-    margin: 0 20px 20px 0;
-    flex-basis: 100%;
+	margin: 0 20px 20px 0;
+	flex-basis: 100%;
   }
 
   .spf_main_bottom {
-    margin: 0 20px 0 0;
+	margin: 0 20px 0 0;
   }
 }

@@ -67,7 +67,7 @@ class Simple_Photo_Feed {
 		if ( defined( 'SPF_VERSION' ) ) {
 			$this->version = SPF_VERSION;
 		} else {
-			$this->version = '1.1.0';
+			$this->version = '1.2.0';
 		}
 		$this->plugin_name = 'simple-photo-feed';
 
@@ -78,10 +78,12 @@ class Simple_Photo_Feed {
 
 		$options = get_option( 'spf_main_settings', array() );
 
-		$options['token']      = $options['token'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$options['cron_time']  = $options['cron_time'] ?: ''; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$options['app_id']     = $options['app_id'] ?: '441876417835861'; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$options['app_secret'] = $options['app_secret'] ?: 'a9bbb3ad41c0a797f5e5c880f7edc360'; // phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
+		// phpcs:disable
+		$options['token']      = $options['token'] ?: '';
+		$options['cron_time']  = $options['cron_time'] ?: '';
+		$options['app_id']     = $options['app_id'] ?: '441876417835861';
+		$options['app_secret'] = $options['app_secret'] ?: 'a9bbb3ad41c0a797f5e5c880f7edc360';
+		// phpcs:enable
 
 		update_option( 'spf_main_settings', $options );
 	}
@@ -101,29 +103,29 @@ class Simple_Photo_Feed {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-photo-feed-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-simple-photo-feed-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-photo-feed-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-simple-photo-feed-i18n.php';
 
 		/**
 		 * The class responsible to fetch and cache the Instagram Feed
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-simple-photo-feed-api.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-simple-photo-feed-api.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-simple-photo-feed-admin.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-simple-photo-feed-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the frontend
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-simple-photo-feed-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-simple-photo-feed-public.php';
 
 		$this->loader = new Simple_Photo_Feed_Loader();
 	}
