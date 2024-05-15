@@ -168,6 +168,10 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 			<?php esc_html_e( 'Smaller thumbnails, more columns:', 'simple-photo-feed' ); ?>
 			<pre>[simple-photo-feed view="12" size="small"]</pre>
 		</div>
+		<div>
+			<?php esc_html_e( 'Include a javascript lightbox:', 'simple-photo-feed' ); ?>
+			<pre>[simple-photo-feed view="12" lightbox="on"]</pre>
+		</div>
 	</div>
 
 	<div class="spf_main_bottom">

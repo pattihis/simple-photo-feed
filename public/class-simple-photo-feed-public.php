@@ -62,6 +62,10 @@ class Simple_Photo_Feed_Public {
 		$css_ver = gmdate( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . './css/simple-photo-feed-public.css' ) );
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-photo-feed-public.css', array(), $css_ver, 'all' );
+
+		$js_ver = gmdate( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . './js/simple-photo-feed-public.js' ) );
+
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/simple-photo-feed-public.js', array( 'jquery' ), $js_ver, true );
 	}
 
 	/**
@@ -86,6 +90,10 @@ class Simple_Photo_Feed_Public {
 
 		if ( ! isset( $atts['size'] ) || empty( $atts['size'] ) ) {
 			$atts['size'] = 'large';
+		}
+
+		if ( ! isset( $atts['lightbox'] ) || empty( $atts['lightbox'] ) ) {
+			$atts['lightbox'] = 'off';
 		}
 
 		ob_start();
