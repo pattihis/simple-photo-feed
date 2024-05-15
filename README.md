@@ -21,6 +21,7 @@ _A WordPress plugin to connect to your Instagram account_
 * Completely responsive and mobile ready – layout looks great on any screen size and in any container width
 * Customizable – Customize the number of photos, number of columns, image size and captions display!
 * Use the built-in shortcode options to completely customize your Instagram feed
+* Built in optional lightbox to view larger images and scroll through gallery without leaving the current site
 
 ### Benefits
 
@@ -46,5 +47,9 @@ Show your captions (on/off):
 Smaller thumbnails, more columns:
 
 `[simple-photo-feed view="12" text="on" size="small"]`
+
+With a built in lightbox
+
+`[simple-photo-feed view="12" lightbox="on"]`
 
 ![Simple Photo Feed - Shortcode Usage](https://ps.w.org/simple-photo-feed/assets/screenshot-2.jpg)
