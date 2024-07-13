@@ -13,9 +13,9 @@
  * Plugin Name:       Simple Photo Feed for Instagram
  * Plugin URI:        https://wordpress.org/plugins/simple-photo-feed/
  * Description:       Simple Photo Feed for Instagram provides an easy way to connect to your Instagram account and display your photos in your WordPress site.
- * Version:           1.2.0
+ * Version:           1.3.0
  * Requires at least: 5.3.0
- * Tested up to:      6.5.2
+ * Tested up to:      6.5.5
  * Requires PHP:      7.2
  * Author:            George Pattichis
  * Author URI:        https://profiles.wordpress.org/pattihis/
@@ -33,7 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current plugin version
  */
-define( 'SPF_VERSION', '1.2.0' );
+define( 'SPF_VERSION', '1.3.0' );
 
 /**
  * Plugin's basename

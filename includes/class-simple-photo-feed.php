@@ -67,7 +67,7 @@ class Simple_Photo_Feed {
 		if ( defined( 'SPF_VERSION' ) ) {
 			$this->version = SPF_VERSION;
 		} else {
-			$this->version = '1.2.0';
+			$this->version = '1.3.0';
 		}
 		$this->plugin_name = 'simple-photo-feed';
 
@@ -76,7 +76,7 @@ class Simple_Photo_Feed {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$options = get_option( 'spf_main_settings', array() );
+		$options = get_option( 'spf_main_settings', array( 'token' => '', 'cron_time' => '', 'app_id' => '', 'app_secret' => '' ) );
 
 		// phpcs:disable
 		$options['token']      = $options['token'] ?: '';

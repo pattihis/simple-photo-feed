@@ -17,10 +17,6 @@
   overflow: hidden;
 }
 
-.spf_container.spf_size_small .spf_item {
-  padding-bottom: 70%;
-}
-
 .spf_container .spf_item img {
   position: absolute;
   top: 0;
@@ -32,13 +28,151 @@
   transition: all 0.2s ease-in-out;
 }
 
-.spf_container .spf_item img:hover {
+.spf_container .spf_item img:hover,
+.spf_container .spf_item a:focus img {
   transform: scale(1.1);
 }
 
 .spf_caption {
   font-size: 11px;
   padding: 0.5rem;
+}
+
+#spf_lightbox_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 99999999;
+}
+
+#spf_lightbox_image_box {
+  position: fixed;
+  top: 2em;
+  left: 2em;
+  right: calc(2em + 35%);
+  bottom: 2em;
+  text-align: center;
+}
+
+#spf_lightbox_image_box img {
+  max-width: 100%;
+  max-height: 100%;
+  border: 2px solid #000;
+  outline: 1px solid #ccc;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+}
+
+#spf_lightbox_caption {
+  position: fixed;
+  bottom: 11em;
+  top: 7em;
+  right: 2em;
+  background: #222;
+  color: #fff;
+  padding: .5em;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid #ccc;
+  width: calc(35% - 4em);
+  overflow-y: auto;
+  text-align: left;
+}
+
+#spf_lightbox_link {
+  position: fixed;
+  right: 2em;
+  bottom: 7em;
+  background: #222;
+  color: #fff;
+  padding: .5em;
+  width: calc(35% - 4em);
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #ccc;
+}
+#spf_lightbox_link:hover {
+  background: #444;
+}
+
+#spf_lightbox_next > svg,
+#spf_lightbox_prev > svg,
+#spf_lightbox_close > svg {
+  width: 3em;
+  height: 3em;
+  color: #fff;
+}
+
+#spf_lightbox_next:hover > svg,
+#spf_lightbox_prev:hover > svg,
+#spf_lightbox_close:hover > svg {
+  color: #aaaaaa;
+}
+
+#spf_lightbox_next {
+  position: fixed;
+  right: 2em;
+  transform: translateY(-50%);
+  cursor: pointer;
+  bottom: 1em;
+}
+
+#spf_lightbox_prev {
+  position: fixed;
+  transform: translateY(-50%);
+  cursor: pointer;
+  bottom: 1em;
+  right: calc(35% - 5em);
+}
+
+#spf_lightbox_close {
+  position: fixed;
+  top: 2em;
+  right: 2em;
+  cursor: pointer;
+}
+
+@media (orientation:portrait) {
+  #spf_lightbox_image_box {
+    right: 2em;
+    bottom: 16em;
+    top: 7em;
+  }
+
+  #spf_lightbox_caption {
+    top: unset;
+    left: 2em;
+    width: unset;
+    text-align: center;
+    bottom: 2em;
+    height: 8.8em;
+  }
+
+  #spf_lightbox_link {
+    bottom: 12em;
+    right: 50%;
+    translate: 50%;
+    width: unset;
+    max-width: calc(100% - 11em);
+  }
+
+  #spf_lightbox_prev {
+    left: 2em;
+    right: unset;
+    bottom: 9.8em;
+  }
+
+  #spf_lightbox_next {
+    bottom: 9.8em;
+  }
 }
 
 @media only screen and (max-width: 768px) {

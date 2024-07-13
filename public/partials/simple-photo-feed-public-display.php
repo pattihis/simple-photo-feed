@@ -11,13 +11,14 @@
  * @subpackage Simple_Photo_Feed/public/partials
  */
 
-$options = get_option( 'spf_main_settings', array() );
-$limit   = (int) $atts['view'];
-$text    = $atts['text'];
-$size    = $atts['size'];
-$api     = new Simple_Photo_Feed_Api();
-$media   = $api->spf_get_media();
-$profile = $api->spf_get_account();
+$options  = get_option( 'spf_main_settings', array() );
+$limit    = (int) $atts['view'];
+$text     = $atts['text'];
+$size     = $atts['size'];
+$lightbox = $atts['lightbox'];
+$api      = new Simple_Photo_Feed_Api();
+$media    = $api->spf_get_media();
+$profile  = $api->spf_get_account();
 
 if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 
@@ -36,11 +37,17 @@ if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 		}
 
 		echo '<div class="spf_item">';
-		echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" title="' . esc_attr( $caption ) . '"><img src="' . esc_url( $url ) . '" alt="" /></a>';
+		if ( 'off' === $lightbox ) {
+			echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" title="' . esc_attr( $caption ) . '"><img src="' . esc_url( $url ) . '" alt="" /></a>';
+		} else {
+			echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" class="spf_lightbox" data-i="' . $i . '" data-count="' . count( $media ) . '" data-src="' . $url . '" data-url="' . esc_url( $p->permalink ) . '" title="' . nl2br( esc_attr( $caption ) ) . '">
+				<img src="' . esc_url( $url ) . '" alt="" ' . ( 'on' == $text ? 'aria-labelledby="spf_' . $p->id . '"' : 'aria-label="' . esc_html( $caption ) . '"' ) . ' />
+			</a>';
+		}
 		echo '</div>';
 
 		if ( 'on' === $text ) {
-			echo '<div class="spf_caption">' . esc_html( $caption ) . '</div>';
+			echo '<div class="spf_caption" id="spf_' . esc_attr( $p->id ) . '">' . esc_html( $caption ) . '</div>';
 			echo '</div>';
 		}
 	endforeach;
