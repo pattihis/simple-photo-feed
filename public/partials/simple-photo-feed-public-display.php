@@ -18,7 +18,6 @@ $size     = $atts['size'];
 $lightbox = $atts['lightbox'];
 $api      = new Simple_Photo_Feed_Api();
 $media    = $api->spf_get_media();
-$profile  = $api->spf_get_account();
 
 if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 
