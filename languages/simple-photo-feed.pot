@@ -155,12 +155,12 @@ msgid "Simple Photo Feed"
 msgstr ""
 
 #. Name of the plugin
-msgid "Simple Photo Feed for Instagram"
+msgid "Simple Photo Feed"
 msgstr ""
 
 #. Description of the plugin
 msgid ""
-"Simple Photo Feed for Instagram provides an easy way to connect to your "
+"Simple Photo Feed provides an easy way to connect to your "
 "Instagram account and display your photos in your WordPress site."
 msgstr ""
 

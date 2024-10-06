@@ -1,4 +1,4 @@
-# Simple Photo Feed for Instagram
+# Simple Photo Feed
 
 _A WordPress plugin to connect to your Instagram account_
 
