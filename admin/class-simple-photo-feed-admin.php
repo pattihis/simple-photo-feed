@@ -90,7 +90,7 @@ class Simple_Photo_Feed_Admin {
 		add_menu_page(
 			__( 'Simple Photo Feed Settings', 'simple-photo-feed' ),
 			__( 'Simple Photo Feed', 'simple-photo-feed' ),
-			'manage_options',
+			'edit_posts',
 			$this->plugin_name,
 			array( $this, 'simple_photo_feed_admin_display' ),
 			'dashicons-instagram',
