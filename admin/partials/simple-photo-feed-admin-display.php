@@ -60,11 +60,6 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 					<?php
 					if ( (bool) $options['auth'] ) :
 						$profile = $api->spf_get_account();
-
-						if ( is_null( $profile->media_count ) ) {
-							$notice = __( 'You\'ve approved access to your profile info but not to your media', 'simple-photo-feed' );
-							echo '<tr><th>' . esc_html__( 'Limited Access', 'simple-photo-feed' ) . '</th><td><div class="notice notice-warning">' . esc_html( $notice ) . '</div><p>' . esc_html__( 'To get access to all plugin\'s functionalities, please click the button below to grant additional permission.', 'simple-photo-feed' ) . '</p><p><a class="button button-secondary" href="' . esc_url( $auth ) . '">' . esc_html__( 'Grant missing permission', 'simple-photo-feed' ) . '</a></p></td></tr>';
-						}
 						?>
 						<tr class="spf_profile_row">
 							<th><?php esc_html_e( 'Connected', 'simple-photo-feed' ); ?></th>

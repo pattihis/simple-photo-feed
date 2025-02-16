@@ -40,7 +40,7 @@ class Simple_Photo_Feed_Api {
 		$this->api = array(
 			'authorize_url' => 'https://api.instagram.com/oauth/authorize/',
 			'response_type' => 'code',
-			'scope'         => 'user_profile,user_media',
+			'scope'         => 'instagram_business_basic',
 			'root'          => 'https://graph.instagram.com/',
 			'redirect_uri'  => 'https://gp-web.dev/instagram-authorize/',
 			'short_lived'   => 'https://api.instagram.com/oauth/access_token/',

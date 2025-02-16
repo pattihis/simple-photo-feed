@@ -76,6 +76,7 @@ class Simple_Photo_Feed_Admin {
 			array(
 				'ajax_url'  => admin_url( 'admin-ajax.php' ),
 				'theme_uri' => get_stylesheet_directory_uri(),
+				'nonce'     => wp_create_nonce( 'simple-photo-feed-nonce' ),
 			)
 		);
 	}
@@ -90,7 +91,7 @@ class Simple_Photo_Feed_Admin {
 		add_menu_page(
 			__( 'Simple Photo Feed Settings', 'simple-photo-feed' ),
 			__( 'Simple Photo Feed', 'simple-photo-feed' ),
-			'manage_options',
+			'edit_posts',
 			$this->plugin_name,
 			array( $this, 'simple_photo_feed_admin_display' ),
 			'dashicons-instagram',
@@ -194,6 +195,12 @@ class Simple_Photo_Feed_Admin {
 	 * @since   1.0.0
 	 */
 	public function spf_disconnect_user() {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! current_user_can('edit_posts') || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
+			wp_send_json_error( esc_html__( 'Unauthorized!', 'simple-photo-feed' ), 403 );
+			return;
+		}
+
 		$options = get_option( 'spf_main_settings', array() );
 
 		$options['token']   = '';
@@ -217,6 +224,11 @@ class Simple_Photo_Feed_Admin {
 	 * @since   1.0.0
 	 */
 	public function spf_clear_feed_cache() {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! current_user_can('edit_posts') || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
+			wp_send_json_error( esc_html__( 'Unauthorized!', 'simple-photo-feed' ), 403 );
+			return;
+		}
 
 		if ( $this->spf_delete_transients() ) {
 			$success = esc_html__( 'Cache Cleared!', 'simple-photo-feed' );

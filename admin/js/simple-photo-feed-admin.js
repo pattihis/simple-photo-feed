@@ -13,6 +13,7 @@
         let xhr = new XMLHttpRequest(),
           data = new FormData();
         data.append('action', 'spf_disconnect_user');
+        data.append('nonce', window.spf.nonce);
         xhr.open('POST', window.spf.ajax_url, true);
         xhr.onreadystatechange = function () {
           if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -51,6 +52,7 @@
         let xhr = new XMLHttpRequest(),
           data = new FormData();
         data.append('action', 'spf_clear_feed_cache');
+        data.append('nonce', window.spf.nonce);
         xhr.open('POST', window.spf.ajax_url, true);
         xhr.onreadystatechange = function () {
           if (xhr.readyState === XMLHttpRequest.DONE) {
