@@ -9,6 +9,10 @@
  * @subpackage Simple_Photo_Feed/includes
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Connect to Instagram's Basic Display API
  *
@@ -216,12 +220,12 @@ class Simple_Photo_Feed_Api {
 	 * Fires after updating options.
 	 *
 	 * @param   array $old Our old options value.
-	 * @param   array $new Our new updated options.
+	 * @param   array $updated Our new updated options.
 	 * @since   1.0.0
 	 */
-	public function spf_setup_cron_job( $old, $new ) {
+	public function spf_setup_cron_job( $old, $updated ) {
 
-		switch ( $new['cron_time'] ) {
+		switch ( $updated['cron_time'] ) {
 			case 1:
 				$interval = 'hourly';
 				break;
@@ -239,9 +243,9 @@ class Simple_Photo_Feed_Api {
 				break;
 		}
 
-		if ( (bool) $new['auth'] ) {
+		if ( (bool) $updated['auth'] ) {
 
-			if ( $old['cron_time'] !== $new['cron_time'] ) {
+			if ( $old['cron_time'] !== $updated['cron_time'] ) {
 				wp_clear_scheduled_hook( 'simple_photo_update_feed' );
 			}
 

@@ -1,13 +1,17 @@
 <?php
 /**
- * Class Simple_Photo_Feed_Admin
+ * The admin-specific functionality of the plugin.
  *
  * @link       https://gp-web.dev/
  * @since      1.0.0
  *
  * @package    Simple_Photo_Feed
- * @subpackage Simple_Photo_Feed/includes
+ * @subpackage Simple_Photo_Feed/admin
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * Setup the admin part of the plugin
@@ -196,7 +200,7 @@ class Simple_Photo_Feed_Admin {
 	 */
 	public function spf_disconnect_user() {
 		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
-		if ( ! current_user_can('edit_posts') || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
+		if ( ! current_user_can( 'edit_posts' ) || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
 			wp_send_json_error( esc_html__( 'Unauthorized!', 'simple-photo-feed' ), 403 );
 			return;
 		}
@@ -225,7 +229,7 @@ class Simple_Photo_Feed_Admin {
 	 */
 	public function spf_clear_feed_cache() {
 		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
-		if ( ! current_user_can('edit_posts') || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
+		if ( ! current_user_can( 'edit_posts' ) || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
 			wp_send_json_error( esc_html__( 'Unauthorized!', 'simple-photo-feed' ), 403 );
 			return;
 		}

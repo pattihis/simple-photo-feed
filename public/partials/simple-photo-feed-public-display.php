@@ -11,6 +11,10 @@
  * @subpackage Simple_Photo_Feed/public/partials
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $options  = get_option( 'spf_main_settings', array() );
 $limit    = (int) $atts['view'];
 $text     = $atts['text'];
@@ -28,7 +32,7 @@ if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 			break;
 		}
 
-		$url     = 'VIDEO' !== $p->media_type ? $p->media_url : $p->thumbnail_url;
+		$url     = 'VIDEO' !== $p->media_type ? esc_url( $p->media_url ) : esc_url( $p->thumbnail_url );
 		$caption = property_exists( $p, 'caption' ) ? $p->caption : esc_html__( 'No caption.', 'simple-photo-feed' );
 
 		if ( 'on' === $text ) {
@@ -39,8 +43,8 @@ if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 		if ( 'off' === $lightbox ) {
 			echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" title="' . esc_attr( $caption ) . '"><img src="' . esc_url( $url ) . '" alt="" /></a>';
 		} else {
-			echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" class="spf_lightbox" data-i="' . $i . '" data-count="' . count( $media ) . '" data-src="' . $url . '" data-url="' . esc_url( $p->permalink ) . '" title="' . nl2br( esc_attr( $caption ) ) . '">
-				<img src="' . esc_url( $url ) . '" alt="" ' . ( 'on' == $text ? 'aria-labelledby="spf_' . $p->id . '"' : 'aria-label="' . esc_html( $caption ) . '"' ) . ' />
+			echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" class="spf_lightbox" data-i="' . esc_attr( $i ) . '" data-count="' . esc_attr( count( $media ) ) . '" data-src="' . esc_url( $url ) . '" data-url="' . esc_url( $p->permalink ) . '" title="' . nl2br( esc_attr( $caption ) ) . '">
+				<img src="' . esc_url( $url ) . '" alt="" ' . ( 'on' === $text ? 'aria-labelledby="spf_' . esc_attr( $p->id ) . '"' : 'aria-label="' . esc_attr( $caption ) . '"' ) . ' />
 			</a>';
 		}
 		echo '</div>';

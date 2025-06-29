@@ -9,6 +9,10 @@
  * @subpackage Simple_Photo_Feed/includes
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Fired during plugin activation.
  *
