@@ -1,6 +1,6 @@
 <?php
 /**
- * The frontend functionality of the plugin.
+ * The public-facing functionality of the plugin.
  *
  * @link       https://gp-web.dev/
  * @since      1.0.0
@@ -8,6 +8,10 @@
  * @package    Simple_Photo_Feed
  * @subpackage Simple_Photo_Feed/public
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * The frontend functionality of the plugin.

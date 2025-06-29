@@ -26,7 +26,7 @@ _A WordPress plugin to connect to your Instagram account_
 ### Benefits
 
 * Increase Social Engagement – Increase engagement between you and your Instagram followers. Increase your number of followers by displaying your Instagram content directly on your site.
-* Save Time – Don’t have time to update your photos on your site? Save time and increase efficiency by only posting your photos to Instagram and automatically displaying them on your website
+* Save Time – Don't have time to update your photos on your site? Save time and increase efficiency by only posting your photos to Instagram and automatically displaying them on your website
 * Keep Your Site Looking Fresh – Automatically push your new Instagram content straight to your site to keep it looking fresh and keeping your audience engaged.
 * Super simple to set up – Once installed, you can be displaying your Instagram photos within 30 seconds! No coding required, no complex steps or Instagram Developer account needed.
 

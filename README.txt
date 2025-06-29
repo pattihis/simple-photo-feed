@@ -3,9 +3,9 @@ Contributors: pattihis
 Donate link: https://profiles.wordpress.org/pattihis/
 Tags: photo gallery, instagram, feed, social, embed
 Requires at least: 5.3.0
-Tested up to: 6.7.2
+Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Simple Photo Feed provides an easy way to connect to your Instagram account and 
 ### Benefits
 
 * Increase Social Engagement – Increase engagement between you and your Instagram followers. Increase your number of followers by displaying your Instagram content directly on your site.
-* Save Time – Don’t have time to update your photos on your site? Save time and increase efficiency by only posting your photos to Instagram and automatically displaying them on your website
+* Save Time – Don't have time to update your photos on your site? Save time and increase efficiency by only posting your photos to Instagram and automatically displaying them on your website
 * Keep Your Site Looking Fresh – Automatically push your new Instagram content straight to your site to keep it looking fresh and keeping your audience engaged.
 * Super simple to set up – Once installed, you can be displaying your Instagram photos within 30 seconds! No coding required, no complex steps or Instagram Developer account needed.
 
@@ -64,7 +64,7 @@ We've made it super easy for you. Just click the "Connect Account" button, login
 
 Unfortunately, not anymore. Meta has decided to deprecate the Instagram Basic API and [turn it off on December 4th, 2024](https://developers.facebook.com/blog/post/2024/09/04/update-on-instagram-basic-display-api/). That was the API that regular, personal accounts could use to have access to their media posts. The only solution to embed your instagram images in your WordPress site now is to use [their Business APIs](https://developers.facebook.com/docs/instagram-platform). That means you must change your account to [a Creator or Business type](https://help.instagram.com/502981923235522#how-to-switch-your-creator-account-to-a-business-account-on-instagram). This is a very easy process and you can [always switch back](https://help.instagram.com/1717693135113805/).
 
-= My Instagram feed isn’t displaying. Why not!? =
+= My Instagram feed isn't displaying. Why not!? =
 
 There are a few common reasons for this:
 
@@ -73,7 +73,7 @@ There are a few common reasons for this:
 * You haven't added the shortcode. Add [simple-photo-feed] in a page/post, where you want your instagram feed to be displayed.
 * You have a Personal account. Please switch to Creator or Business account.
 
-If you’re still having an issue displaying your feed then please open a ticket in the [Support forum](https://wordpress.org/support/plugin/simple-photo-feed) with a link to the page where you're trying to display the Instagram feed and, if possible, a link to your Instagram account.
+If you're still having an issue displaying your feed then please open a ticket in the [Support forum](https://wordpress.org/support/plugin/simple-photo-feed) with a link to the page where you're trying to display the Instagram feed and, if possible, a link to your Instagram account.
 
 = Does "Simple Photo Feed" require manual coding or file editing? =
 
@@ -93,6 +93,11 @@ Of course! "Simple Photo Feed" is compatible with any theme and plugin that foll
 2. Shortcode Usage
 
 == Changelog ==
+
+= 1.4.2 =
+* Ensure compatibility with WP 6.8
+* Improved code maintainability and security
+* Ensured full WordPress coding standards compliance (PHPCS)
 
 = 1.4.1 =
 * Compatibility with WordPress 6.7.2

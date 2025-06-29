@@ -12,6 +12,10 @@
  * @subpackage Simple_Photo_Feed/includes
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * The core plugin class.
  *
@@ -76,7 +80,15 @@ class Simple_Photo_Feed {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$options = get_option( 'spf_main_settings', array( 'token' => '', 'cron_time' => '', 'app_id' => '', 'app_secret' => '' ) );
+		$options = get_option(
+			'spf_main_settings',
+			array(
+				'token'      => '',
+				'cron_time'  => '',
+				'app_id'     => '',
+				'app_secret' => '',
+			)
+		);
 
 		// phpcs:disable
 		$options['token']      = $options['token'] ?: '';
