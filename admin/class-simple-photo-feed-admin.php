@@ -86,6 +86,31 @@ class Simple_Photo_Feed_Admin {
 	}
 
 	/**
+	 * Get the required capability for accessing the plugin
+	 *
+	 * @since  1.4.3
+	 * @return string The required capability
+	 */
+	public function get_required_capability() {
+		$options    = get_option( 'spf_main_settings', array() );
+		$capability = isset( $options['required_capability'] ) ? $options['required_capability'] : 'manage_options';
+
+		// Ensure the capability is valid and secure.
+		$valid_capabilities = array( 'manage_options', 'edit_posts', 'publish_posts' );
+		if ( ! in_array( $capability, $valid_capabilities, true ) ) {
+			$capability = 'manage_options';
+		}
+
+		/**
+		 * Filter the required capability for accessing the plugin
+		 *
+		 * @since 1.4.3
+		 * @param string $capability The required capability
+		 */
+		return apply_filters( 'spf_required_capability', $capability );
+	}
+
+	/**
 	 * Register the admin menu
 	 *
 	 * @since    1.0.0
@@ -94,8 +119,8 @@ class Simple_Photo_Feed_Admin {
 
 		add_menu_page(
 			__( 'Simple Photo Feed Settings', 'simple-photo-feed' ),
-			__( 'Simple Photo Feed', 'simple-photo-feed' ),
-			'edit_posts',
+			__( 'Photo Feed', 'simple-photo-feed' ),
+			$this->get_required_capability(),
 			$this->plugin_name,
 			array( $this, 'simple_photo_feed_admin_display' ),
 			'dashicons-instagram',
@@ -109,7 +134,52 @@ class Simple_Photo_Feed_Admin {
 	 * @since  1.0.0
 	 */
 	public function simple_photo_feed_admin_display() {
+		// Handle custom form submission for non-administrators.
+		if ( ! current_user_can( 'manage_options' ) && isset( $_POST['spf_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['spf_nonce'] ) ), 'spf_save_settings' ) ) {
+			$this->handle_custom_form_submission();
+		}
+
 		include_once 'partials/simple-photo-feed-admin-display.php';
+	}
+
+			/**
+	 * Handle form submission for non-administrators
+	 *
+	 * @since  1.4.3
+	 */
+	private function handle_custom_form_submission() {
+		$options = get_option( 'spf_main_settings', array() );
+
+		// Only allow updating specific fields for non-administrators.
+		if ( isset( $_POST['spf_main_settings']['cron_time'] ) ) {
+			$options['cron_time'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['cron_time'] ) );
+		}
+
+		if ( isset( $_POST['spf_main_settings']['token'] ) ) {
+			$options['token'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['token'] ) );
+		}
+
+		if ( isset( $_POST['spf_main_settings']['user_id'] ) ) {
+			$options['user_id'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['user_id'] ) );
+		}
+
+		if ( isset( $_POST['spf_main_settings']['auth'] ) ) {
+			$options['auth'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['auth'] ) );
+		}
+
+		// Set the capability based on current user's role.
+		if ( current_user_can( 'edit_posts' ) ) {
+			$options['required_capability'] = 'edit_posts'; // Editors and above.
+		} elseif ( current_user_can( 'publish_posts' ) ) {
+			$options['required_capability'] = 'publish_posts'; // Authors and above.
+		}
+
+		update_option( 'spf_main_settings', $options );
+
+		// Add success message.
+		add_action( 'admin_notices', function() {
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully!', 'simple-photo-feed' ) . '</p></div>';
+		});
 	}
 
 	/**
@@ -123,7 +193,24 @@ class Simple_Photo_Feed_Admin {
 	 */
 	public function simple_photo_feed_register_settings() {
 
-		register_setting( 'spf_main_settings', 'spf_main_settings' );
+		register_setting( 'spf_main_settings', 'spf_main_settings', array( $this, 'sanitize_settings' ) );
+	}
+
+	/**
+	 * Sanitize and validate settings before saving
+	 *
+	 * @since  1.4.3
+	 * @param  array $input The input array from the form.
+	 * @return array The sanitized input array.
+	 */
+	public function sanitize_settings( $input ) {
+		// Only administrators can modify access control settings.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			// Set the capability based on current user's role.
+			$input['required_capability'] = current_user_can( 'edit_posts' ) ? 'edit_posts' : 'publish_posts';
+		}
+
+		return $input;
 	}
 
 	/**
@@ -200,7 +287,7 @@ class Simple_Photo_Feed_Admin {
 	 */
 	public function spf_disconnect_user() {
 		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
-		if ( ! current_user_can( 'edit_posts' ) || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
+		if ( ! current_user_can( $this->get_required_capability() ) || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
 			wp_send_json_error( esc_html__( 'Unauthorized!', 'simple-photo-feed' ), 403 );
 			return;
 		}
@@ -229,7 +316,7 @@ class Simple_Photo_Feed_Admin {
 	 */
 	public function spf_clear_feed_cache() {
 		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
-		if ( ! current_user_can( 'edit_posts' ) || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
+		if ( ! current_user_can( $this->get_required_capability() ) || ! wp_verify_nonce( $nonce, 'simple-photo-feed-nonce' ) ) {
 			wp_send_json_error( esc_html__( 'Unauthorized!', 'simple-photo-feed' ), 403 );
 			return;
 		}

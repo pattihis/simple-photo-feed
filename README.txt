@@ -5,7 +5,7 @@ Tags: photo gallery, instagram, feed, social, embed
 Requires at least: 5.3.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,12 +87,22 @@ You can embed your Instagram feed directly into a template file by using the Wor
 
 Of course! "Simple Photo Feed" is compatible with any theme and plugin that follows WordPress coding standards.
 
+= Who can access and use the Plugin? =
+
+Simple Photo Feed includes configurable access control that allows site administrators to choose which user roles can access and configure the plugin. By default, the plugin remains secure and only allows administrators (`manage_options` capability) to access the plugin settings. This ensures that sensitive Instagram API credentials and feed configuration remain protected.
+
 == Screenshots ==
 
 1. Plugin Settings Page
 2. Shortcode Usage
 
 == Changelog ==
+
+= 1.4.3 =
+* Added configurable access control - site administrators can now choose which user roles can access the
+plugin settings
+* Default remains administrators only for security
+* Added filter hook `spf_required_capability` for developers to customize access control
 
 = 1.4.2 =
 * Ensure compatibility with WP 6.8
