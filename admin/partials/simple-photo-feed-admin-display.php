@@ -51,8 +51,13 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 <div class="spf_main_wrap">
 
 	<div class="spf_main_left">
+		<?php if ( current_user_can( 'manage_options' ) ) : ?>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'spf_main_settings' ); ?>
+		<?php else : ?>
+		<form method="post" action="">
+			<?php wp_nonce_field( 'spf_save_settings', 'spf_nonce' ); ?>
+		<?php endif; ?>
 			<?php echo (bool) $options['auth'] ? '' : '<p>' . esc_html__( 'You need an access token for the official Instagram API. Please click the authorize button below to get one or visit our ', 'simple-photo-feed' ) . '<a href="' . esc_url( $uri ) . '" target="_blank">Token Generator</a></p>'; ?>
 			<div class="spf-dual-ring hidden" id="spf-loader"></div>
 			<table class="form-table">
@@ -137,6 +142,19 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 							<div class="spf-dual-ring hidden" id="spf-loader-small"></div>
 						</td>
 					</tr>
+					<?php if ( current_user_can( 'manage_options' ) ) : ?>
+					<tr>
+						<th><?php esc_html_e( 'Access Control', 'simple-photo-feed' ); ?></th>
+						<td>
+							<select name='spf_main_settings[required_capability]' id='spf_required_capability'>
+								<option value='manage_options' <?php selected( esc_attr( $options['required_capability'] ?? 'manage_options' ), 'manage_options' ); ?>><?php esc_html_e( 'Administrators only', 'simple-photo-feed' ); ?></option>
+								<option value='edit_posts' <?php selected( esc_attr( $options['required_capability'] ?? 'manage_options' ), 'edit_posts' ); ?>><?php esc_html_e( 'Editors and above', 'simple-photo-feed' ); ?></option>
+								<option value='publish_posts' <?php selected( esc_attr( $options['required_capability'] ?? 'manage_options' ), 'publish_posts' ); ?>><?php esc_html_e( 'Authors and above', 'simple-photo-feed' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'Choose which user roles can access and configure this plugin.', 'simple-photo-feed' ); ?></p>
+						</td>
+					</tr>
+					<?php endif; ?>
 				</tbody>
 			</table>
 			<input type="hidden" name="spf_main_settings[user_id]" id="spf_user_id" value="<?php echo esc_attr( $options['user_id'] ); ?>">

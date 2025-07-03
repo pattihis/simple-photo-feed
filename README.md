@@ -30,6 +30,12 @@ _A WordPress plugin to connect to your Instagram account_
 * Keep Your Site Looking Fresh – Automatically push your new Instagram content straight to your site to keep it looking fresh and keeping your audience engaged.
 * Super simple to set up – Once installed, you can be displaying your Instagram photos within 30 seconds! No coding required, no complex steps or Instagram Developer account needed.
 
+## Access Control
+
+Simple Photo Feed includes configurable access control that allows site administrators to choose which user roles can access and configure the plugin settings.
+
+For detailed documentation, see [Access Control Guide](ACCESS_CONTROL.md).
+
 ## Usage
 
 You can use the shortcode below in your Posts/Pages:
@@ -53,3 +59,24 @@ With a built in lightbox
 `[simple-photo-feed view="12" lightbox="on"]`
 
 ![Simple Photo Feed - Shortcode Usage](https://ps.w.org/simple-photo-feed/assets/screenshot-2.jpg)
+
+## Changelog
+
+### 1.4.3
+* Added configurable access control - admins can now choose which user roles can access the
+plugin settings
+* Default remains administrators only for security
+* Added filter hook `spf_required_capability` for developers to customize access control
+
+### 1.4.2
+* Ensure compatibility with WP 6.8
+* Improved code maintainability and security
+* Ensured full WordPress coding standards compliance (PHPCS)
+
+### 1.4.1
+* Compatibility with WordPress 6.7.2
+* Add nonce to Ajax calls for improved security
+
+### 1.4.0
+* Update to Business API after Basic API deprecation
+* Allow Contributors and above to access the menu page
