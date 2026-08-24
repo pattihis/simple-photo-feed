@@ -49,7 +49,7 @@ class Simple_Photo_Feed_Api {
 	public function __construct() {
 
 		$this->api = array(
-			'authorize_url' => 'https://api.instagram.com/oauth/authorize/',
+			'authorize_url' => 'https://www.instagram.com/oauth/authorize',
 			'response_type' => 'code',
 			'scope'         => 'instagram_business_basic',
 			'root'          => 'https://graph.instagram.com/',
@@ -83,18 +83,16 @@ class Simple_Photo_Feed_Api {
 
 		$spf_nonce = wp_create_nonce( 'spf_nonce' );
 
-		$url = add_query_arg(
-			array(
-				'client_id'     => $this->get_app_id(),
-				'redirect_uri'  => $this->api['redirect_uri'],
-				'scope'         => $this->api['scope'],
-				'response_type' => $this->api['response_type'],
-				'state'         => rawurlencode( admin_url( 'admin.php?page=simple-photo-feed&' ) . 'spf_flow=ticket&spf_nonce=' . $spf_nonce ),
-			),
-			$this->api['authorize_url']
+		// http_build_query() RFC 3986-encodes every value; add_query_arg() would not.
+		$args = array(
+			'client_id'     => $this->get_app_id(),
+			'redirect_uri'  => $this->api['redirect_uri'],
+			'scope'         => $this->api['scope'],
+			'response_type' => $this->api['response_type'],
+			'state'         => admin_url( 'admin.php?page=simple-photo-feed&' ) . 'spf_flow=ticket&spf_nonce=' . $spf_nonce,
 		);
 
-		return $url;
+		return $this->api['authorize_url'] . '?' . http_build_query( $args, '', '&', PHP_QUERY_RFC3986 );
 	}
 
 	/**
