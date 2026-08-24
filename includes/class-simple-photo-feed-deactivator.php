@@ -35,5 +35,6 @@ class Simple_Photo_Feed_Deactivator {
 	public static function deactivate() {
 
 		wp_clear_scheduled_hook( 'simple_photo_refresh_token' );
+		wp_clear_scheduled_hook( 'simple_photo_update_feed' );
 	}
 }

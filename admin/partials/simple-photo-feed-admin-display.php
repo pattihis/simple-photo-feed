@@ -2,7 +2,7 @@
 /**
  * The main admin page of the plugin
  *
- * This file handles authorization callback, token exchange and main settings.
+ * This file handles authorization callback, token redeem and main settings.
  *
  * @link       https://gp-web.dev/
  * @since      1.0.0
@@ -11,38 +11,65 @@
  * @subpackage Simple_Photo_Feed/admin/partials
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $admin = new Simple_Photo_Feed_Admin( 'simple-photo-feed', SPF_VERSION );
 $times = $admin->simple_photo_feed_cron_times();
 $api   = new Simple_Photo_Feed_Api();
 $auth  = $api->spf_get_auth_url_personal();
 $uri   = $api->api['redirect_uri'];
 
-$code = isset( $_GET['code'], $_GET['nonce'] ) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'spf_nonce' )
-	? sanitize_text_field( wp_unslash( $_GET['code'] ) )
-	: false;
+$connect_error = '';
+$ticket        = isset( $_GET['ticket'], $_GET['nonce'] ) && wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), 'spf_nonce' )
+	? sanitize_text_field( wp_unslash( $_GET['ticket'] ) )
+	: '';
 
-if ( $code ) :
-	$response = $api->spf_get_short_lived_token( $code );
-	$short    = is_object( $response ) ? $response->access_token : '';
-	$user_id  = is_object( $response ) ? $response->user_id : '';
-	$long     = $api->spf_get_long_lived_token( $short );
-	$token    = is_object( $long ) ? $long->access_token : '';
-	echo $api->spf_connect_user( $user_id, '1', $token ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-endif;
+if ( $ticket ) {
+	$result = $api->spf_redeem_oauth_ticket( $ticket );
+	if ( is_array( $result ) && ! empty( $result['token'] ) ) {
+		echo $api->spf_connect_user( $result['user_id'], '1', $result['token'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	} else {
+		$connect_error = __( 'Could not complete Instagram authorization. Please try again.', 'simple-photo-feed' );
+	}
+}
 
 $options = get_option( 'spf_main_settings', array() );
+if ( ! is_array( $options ) ) {
+	$options = array();
+}
 
-if ( empty( $options['auth'] ) && ! empty( $options['token'] ) ) :
+if ( empty( $options['auth'] ) && ! empty( $options['token'] ) ) {
 	$profile = $api->spf_get_account();
-	echo $api->spf_connect_user( $profile->id, '1', $options['token'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-endif;
+	if ( is_object( $profile ) && empty( $profile->error ) && ! empty( $profile->id ) ) {
+		echo $api->spf_connect_user( $profile->id, '1', $options['token'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+}
 
-$auth_error = isset( $_GET['auth_error'], $_GET['reason'], $_GET['nonce'] ) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'spf_nonce' )
+$auth_error = isset( $_GET['auth_error'], $_GET['reason'], $_GET['nonce'] ) && wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), 'spf_nonce' )
 	? sanitize_text_field( wp_unslash( $_GET['reason'] ) )
 	: false;
 
-$auth     = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? '' : $auth;
-$disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'disabled' : '';
+if ( $connect_error && ! $auth_error ) {
+	$auth_error = $connect_error;
+}
+
+$auth     = $api->get_app_id() ? $auth : '';
+$disabled = $api->get_app_id() ? '' : 'disabled';
+
+$current_cap = isset( $options['required_capability'] ) ? $options['required_capability'] : 'manage_options';
+if ( 'edit_posts' === $current_cap ) {
+	$current_cap = 'edit_others_posts';
+}
+
+$profile = false;
+if ( ! empty( $options['auth'] ) ) {
+	$profile = $api->spf_get_account();
+	if ( ! is_object( $profile ) || ! empty( $profile->error ) ) {
+		$profile = false;
+	}
+}
 
 ?>
 
@@ -58,18 +85,16 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 		<form method="post" action="">
 			<?php wp_nonce_field( 'spf_save_settings', 'spf_nonce' ); ?>
 		<?php endif; ?>
-			<?php echo (bool) $options['auth'] ? '' : '<p>' . esc_html__( 'You need an access token for the official Instagram API. Please click the authorize button below to get one or visit our ', 'simple-photo-feed' ) . '<a href="' . esc_url( $uri ) . '" target="_blank">Token Generator</a></p>'; ?>
+			<?php echo ( ! empty( $options['auth'] ) ) ? '' : '<p>' . esc_html__( 'You need an access token for the official Instagram API. Please click the authorize button below to get one or visit our ', 'simple-photo-feed' ) . '<a href="' . esc_url( $uri ) . '" target="_blank" rel="noopener noreferrer">Token Generator</a></p>'; ?>
 			<div class="spf-dual-ring hidden" id="spf-loader"></div>
 			<table class="form-table">
 				<tbody>
-					<?php
-					if ( (bool) $options['auth'] ) :
-						$profile = $api->spf_get_account();
-						?>
+					<?php if ( ! empty( $options['auth'] ) ) : ?>
 						<tr class="spf_profile_row">
 							<th><?php esc_html_e( 'Connected', 'simple-photo-feed' ); ?></th>
 							<td>
-								<a href="https://instagram.com/<?php echo esc_html( $profile->username ); ?>" target="_blank" class="spf_profile_link button button-primary button-small">
+								<?php if ( $profile ) : ?>
+								<a href="<?php echo esc_url( 'https://instagram.com/' . rawurlencode( (string) $profile->username ) ); ?>" target="_blank" rel="noopener noreferrer" class="spf_profile_link button button-primary button-small">
 									<span class="dashicons dashicons-instagram"></span><?php echo esc_html( $profile->username ); ?>
 								</a>
 								<table class="spf_profile">
@@ -79,36 +104,28 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 										<th>Account ID</th>
 									</tr>
 									<tr>
-										<td><?php echo is_null( $profile->media_count ) ? esc_html__( 'No Access!', 'simple-photo-feed' ) : esc_html( $profile->media_count ); ?></td>
-										<td><?php echo esc_html( $profile->account_type ); ?></td>
-										<td><?php echo esc_html( $profile->id ); ?></td>
+										<td><?php echo ( ! isset( $profile->media_count ) || is_null( $profile->media_count ) ) ? esc_html__( 'No Access!', 'simple-photo-feed' ) : esc_html( $profile->media_count ); ?></td>
+										<td><?php echo esc_html( isset( $profile->account_type ) ? $profile->account_type : '' ); ?></td>
+										<td><?php echo esc_html( isset( $profile->id ) ? $profile->id : '' ); ?></td>
 									</tr>
 								</table>
+								<?php else : ?>
+								<div class="notice notice-warning inline"><p><?php esc_html_e( 'Account is connected but profile data could not be loaded. Disconnect and connect again if this persists.', 'simple-photo-feed' ); ?></p></div>
+								<?php endif; ?>
 								<a class="button button-secondary" id="spf-admin-deauthorize" href="#">
 									<?php esc_html_e( 'Disconnect Account', 'simple-photo-feed' ); ?>
 								</a>
-								<input type="hidden" name="spf_main_settings[token]" id="spf_token" value="<?php echo esc_attr( $options['token'] ); ?>">
+								<?php // The stored token is intentionally not printed; saving without a token field keeps it. ?>
 							</td>
 						</tr>
 					<?php else : ?>
 						<?php
 						if ( $auth_error ) {
-							$notice = 'user_denied' === $_GET['reason'] ? __( 'Access denied by user. Please try again below.', 'simple-photo-feed' ) : $auth_error;
+							$reason = isset( $_GET['reason'] ) ? sanitize_text_field( wp_unslash( $_GET['reason'] ) ) : '';
+							$notice = 'user_denied' === $reason ? __( 'Access denied by user. Please try again below.', 'simple-photo-feed' ) : $auth_error;
 							echo '<tr><th>Error</th><td><div class="notice notice-error">' . esc_html( $notice ) . '</div></td></tr>';
 						}
 						?>
-						<tr class="hidden">
-							<th><?php esc_html_e( 'App ID', 'simple-photo-feed' ); ?></th>
-							<td>
-								<input type="hidden" name='spf_main_settings[app_id]' id='spf_app_id' value="<?php echo esc_attr( $options['app_id'] ); ?>" autocomplete="off" disabled>
-							</td>
-						</tr>
-						<tr class="hidden">
-							<th><?php esc_html_e( 'App Secret', 'simple-photo-feed' ); ?></th>
-							<td>
-								<input type="password" name='spf_main_settings[app_secret]' id='spf_app_secret' value="<?php echo esc_attr( $options['app_secret'] ); ?>" autocomplete="off" disabled>
-							</td>
-						</tr>
 						<tr>
 							<th><?php esc_html_e( 'Authorize Access', 'simple-photo-feed' ); ?></th>
 							<td>
@@ -120,17 +137,17 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 						<tr>
 							<th><?php esc_html_e( 'Access Token', 'simple-photo-feed' ); ?></th>
 							<td>
-								<input type="text" name='spf_main_settings[token]' id='spf_token' value="" autocomplete="off">
-								<?php echo esc_html__( 'You can also get a token at our ', 'simple-photo-feed' ) . '<a href="' . esc_url( $uri ) . '" target="_blank">Token Generator</a></p>'; ?>
+								<input type="text" name="spf_main_settings[token]" id="spf_token" value="" autocomplete="off">
+								<?php echo esc_html__( 'You can also get a token at our ', 'simple-photo-feed' ) . '<a href="' . esc_url( $uri ) . '" target="_blank" rel="noopener noreferrer">Token Generator</a></p>'; ?>
 							</td>
 						</tr>
 					<?php endif; ?>
 					<tr>
 						<th><?php esc_html_e( 'Update Feed', 'simple-photo-feed' ); ?></th>
 						<td>
-							<select name='spf_main_settings[cron_time]' id='spf_cron_time'>
+							<select name="spf_main_settings[cron_time]" id="spf_cron_time">
 								<?php foreach ( $times as $k => $v ) : ?>
-									<option value='<?php echo esc_attr( $k ); ?>' <?php selected( esc_attr( $options['cron_time'] ), esc_attr( $k ) ); ?>><?php echo esc_html( $v ); ?></option>
+									<option value="<?php echo esc_attr( $k ); ?>" <?php selected( (string) ( isset( $options['cron_time'] ) ? $options['cron_time'] : '3' ), (string) $k ); ?>><?php echo esc_html( $v ); ?></option>
 								<?php endforeach; ?>
 							</select>
 						</td>
@@ -146,10 +163,10 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 					<tr>
 						<th><?php esc_html_e( 'Access Control', 'simple-photo-feed' ); ?></th>
 						<td>
-							<select name='spf_main_settings[required_capability]' id='spf_required_capability'>
-								<option value='manage_options' <?php selected( esc_attr( $options['required_capability'] ?? 'manage_options' ), 'manage_options' ); ?>><?php esc_html_e( 'Administrators only', 'simple-photo-feed' ); ?></option>
-								<option value='edit_posts' <?php selected( esc_attr( $options['required_capability'] ?? 'manage_options' ), 'edit_posts' ); ?>><?php esc_html_e( 'Editors and above', 'simple-photo-feed' ); ?></option>
-								<option value='publish_posts' <?php selected( esc_attr( $options['required_capability'] ?? 'manage_options' ), 'publish_posts' ); ?>><?php esc_html_e( 'Authors and above', 'simple-photo-feed' ); ?></option>
+							<select name="spf_main_settings[required_capability]" id="spf_required_capability">
+								<option value="manage_options" <?php selected( $current_cap, 'manage_options' ); ?>><?php esc_html_e( 'Administrators only', 'simple-photo-feed' ); ?></option>
+								<option value="edit_others_posts" <?php selected( $current_cap, 'edit_others_posts' ); ?>><?php esc_html_e( 'Editors and above', 'simple-photo-feed' ); ?></option>
+								<option value="publish_posts" <?php selected( $current_cap, 'publish_posts' ); ?>><?php esc_html_e( 'Authors and above', 'simple-photo-feed' ); ?></option>
 							</select>
 							<p class="description"><?php esc_html_e( 'Choose which user roles can access and configure this plugin.', 'simple-photo-feed' ); ?></p>
 						</td>
@@ -157,8 +174,8 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 					<?php endif; ?>
 				</tbody>
 			</table>
-			<input type="hidden" name="spf_main_settings[user_id]" id="spf_user_id" value="<?php echo esc_attr( $options['user_id'] ); ?>">
-			<input type="hidden" name="spf_main_settings[auth]" id="spf_auth" value="<?php echo esc_attr( $options['auth'] ); ?>">
+			<input type="hidden" name="spf_main_settings[user_id]" id="spf_user_id" value="<?php echo esc_attr( isset( $options['user_id'] ) ? $options['user_id'] : '' ); ?>">
+			<input type="hidden" name="spf_main_settings[auth]" id="spf_auth" value="<?php echo esc_attr( isset( $options['auth'] ) ? $options['auth'] : '' ); ?>">
 			<?php submit_button( __( 'Save options', 'simple-photo-feed' ), 'button button-primary button-large' ); ?>
 		</form><!-- /.form -->
 	</div>
@@ -188,7 +205,7 @@ $disabled = empty( $options['app_id'] ) || empty( $options['app_secret'] ) ? 'di
 	</div>
 
 	<div class="spf_main_bottom">
-		<p> <?php esc_html_e( 'If you like this free plugin then please', 'simple-photo-feed' ); ?> <a target="_blank" href="https://wordpress.org/support/plugin/simple-photo-feed/reviews/?rate=5#new-post" title="Rate the plugin"><?php esc_html_e( 'give us a review ', 'simple-photo-feed' ); ?> ❤</a></p>
+		<p> <?php esc_html_e( 'If you like this free plugin then please', 'simple-photo-feed' ); ?> <a target="_blank" rel="noopener noreferrer" href="https://wordpress.org/support/plugin/simple-photo-feed/reviews/?rate=5#new-post" title="Rate the plugin"><?php esc_html_e( 'give us a review ', 'simple-photo-feed' ); ?> ❤</a></p>
 	</div>
 
 </div>

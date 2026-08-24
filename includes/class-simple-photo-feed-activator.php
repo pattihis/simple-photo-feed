@@ -28,41 +28,53 @@ class Simple_Photo_Feed_Activator {
 	/**
 	 * Initialize plugin settings.
 	 *
-	 * We register default options to WordPress if they do not exist.
+	 * Merge defaults into existing options. Do not wipe a connected account.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function activate() {
 
-		delete_option( 'spf_main_settings' );
-
-		// Default settings for our plugin.
-		$options = array(
-			'token'      => '',
-			'user_id'    => '',
-			'auth'       => '',
-			'cron_time'  => '3',
-			'app_id'     => '',
-			'app_secret' => '',
+		$defaults = array(
+			'token'               => '',
+			'user_id'             => '',
+			'auth'                => '',
+			'cron_time'           => '3',
+			'app_id'              => '',
+			'required_capability' => 'manage_options',
 		);
 
-		// Get existing options if exists.
 		$existing = get_option( 'spf_main_settings' );
-		// Check if valid settings exist.
-		if ( $existing && is_array( $existing ) ) {
-			foreach ( $options as $key => $value ) {
-				if ( array_key_exists( $key, $existing ) ) {
-					$options[ $key ] = $existing[ $key ];
+		if ( is_array( $existing ) ) {
+			foreach ( $defaults as $key => $value ) {
+				if ( ! array_key_exists( $key, $existing ) ) {
+					$existing[ $key ] = $value;
 				}
 			}
+			if ( isset( $existing['required_capability'] ) && 'edit_posts' === $existing['required_capability'] ) {
+				$existing['required_capability'] = 'edit_others_posts';
+			}
+			unset( $existing['app_secret'] );
+			update_option( 'spf_main_settings', $existing );
+		} else {
+			update_option( 'spf_main_settings', $defaults );
 		}
 
-		// Update/create our settings.
-		update_option( 'spf_main_settings', $options );
-
-		// Setup cron job.
 		if ( ! wp_next_scheduled( 'simple_photo_refresh_token' ) ) {
 			wp_schedule_event( time(), 'weekly', 'simple_photo_refresh_token' );
+		}
+
+		// Restore the feed-refresh cron for already-connected sites (deactivation clears it).
+		$options = is_array( $existing ) ? $existing : $defaults;
+		if ( ! empty( $options['auth'] ) && ! wp_next_scheduled( 'simple_photo_update_feed' ) ) {
+			$map      = array(
+				1  => 'hourly',
+				3  => '3h',
+				6  => '6h',
+				12 => 'twicedaily',
+				24 => 'daily',
+			);
+			$interval = isset( $map[ (int) $options['cron_time'] ] ) ? $map[ (int) $options['cron_time'] ] : '3h';
+			wp_schedule_event( time(), $interval, 'simple_photo_update_feed' );
 		}
 	}
 }

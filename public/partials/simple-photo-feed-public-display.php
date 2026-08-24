@@ -23,7 +23,7 @@ $lightbox = $atts['lightbox'];
 $api      = new Simple_Photo_Feed_Api();
 $media    = $api->spf_get_media();
 
-if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
+if ( ! empty( $options['token'] ) && is_array( $media ) ) :
 
 	echo '<div class="spf_container spf_size_' . esc_attr( $size ) . '">';
 
@@ -31,9 +31,14 @@ if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 		if ( $i === $limit ) {
 			break;
 		}
+		if ( ! is_object( $p ) ) {
+			continue;
+		}
 
-		$url     = 'VIDEO' !== $p->media_type ? esc_url( $p->media_url ) : esc_url( $p->thumbnail_url );
-		$caption = property_exists( $p, 'caption' ) ? $p->caption : esc_html__( 'No caption.', 'simple-photo-feed' );
+		$url = ( isset( $p->media_type ) && 'VIDEO' === $p->media_type && ! empty( $p->thumbnail_url ) )
+			? esc_url( $p->thumbnail_url )
+			: ( ! empty( $p->media_url ) ? esc_url( $p->media_url ) : '' );
+		$caption = ( isset( $p->caption ) && '' !== $p->caption ) ? $p->caption : esc_html__( 'No caption.', 'simple-photo-feed' );
 
 		if ( 'on' === $text ) {
 			echo '<div class="spf_item_wrap">';
@@ -41,16 +46,16 @@ if ( ! isset( $options['[auth]'] ) && ! empty( $options['token'] ) ) :
 
 		echo '<div class="spf_item">';
 		if ( 'off' === $lightbox ) {
-			echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" title="' . esc_attr( $caption ) . '"><img src="' . esc_url( $url ) . '" alt="" /></a>';
+			echo '<a href="' . esc_url( isset( $p->permalink ) ? $p->permalink : '' ) . '" target="_blank" rel="noopener noreferrer" title="' . esc_attr( $caption ) . '"><img src="' . esc_url( $url ) . '" alt="" /></a>';
 		} else {
-			echo '<a href="' . esc_url( $p->permalink ) . '" target="_blank" class="spf_lightbox" data-i="' . esc_attr( $i ) . '" data-count="' . esc_attr( count( $media ) ) . '" data-src="' . esc_url( $url ) . '" data-url="' . esc_url( $p->permalink ) . '" title="' . nl2br( esc_attr( $caption ) ) . '">
-				<img src="' . esc_url( $url ) . '" alt="" ' . ( 'on' === $text ? 'aria-labelledby="spf_' . esc_attr( $p->id ) . '"' : 'aria-label="' . esc_attr( $caption ) . '"' ) . ' />
+			echo '<a href="' . esc_url( isset( $p->permalink ) ? $p->permalink : '' ) . '" target="_blank" rel="noopener noreferrer" class="spf_lightbox" data-i="' . esc_attr( $i ) . '" data-count="' . esc_attr( count( $media ) ) . '" data-src="' . esc_url( $url ) . '" data-url="' . esc_url( isset( $p->permalink ) ? $p->permalink : '' ) . '" title="' . esc_attr( $caption ) . '">
+				<img src="' . esc_url( $url ) . '" alt="" ' . ( 'on' === $text ? 'aria-labelledby="spf_' . esc_attr( isset( $p->id ) ? $p->id : $i ) . '"' : 'aria-label="' . esc_attr( $caption ) . '"' ) . ' />
 			</a>';
 		}
 		echo '</div>';
 
 		if ( 'on' === $text ) {
-			echo '<div class="spf_caption" id="spf_' . esc_attr( $p->id ) . '">' . esc_html( $caption ) . '</div>';
+			echo '<div class="spf_caption" id="spf_' . esc_attr( isset( $p->id ) ? $p->id : $i ) . '">' . esc_html( $caption ) . '</div>';
 			echo '</div>';
 		}
 	endforeach;

@@ -59,9 +59,16 @@ class Simple_Photo_Feed_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
+	 * Loaded only on the plugin's own settings screen.
+	 *
 	 * @since    1.0.0
+	 * @param    string $hook_suffix Current admin page hook.
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles( $hook_suffix ) {
+
+		if ( 'toplevel_page_' . $this->plugin_name !== $hook_suffix ) {
+			return;
+		}
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/simple-photo-feed-admin.css', array(), $this->version, 'all' );
 	}
@@ -69,9 +76,17 @@ class Simple_Photo_Feed_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
+	 * Loaded only on the plugin's own settings screen, so the AJAX nonce is
+	 * not exposed on every wp-admin page.
+	 *
 	 * @since    1.0.0
+	 * @param    string $hook_suffix Current admin page hook.
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts( $hook_suffix ) {
+
+		if ( 'toplevel_page_' . $this->plugin_name !== $hook_suffix ) {
+			return;
+		}
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/simple-photo-feed-admin.js', array(), $this->version, false );
 		wp_localize_script(
@@ -95,8 +110,12 @@ class Simple_Photo_Feed_Admin {
 		$options    = get_option( 'spf_main_settings', array() );
 		$capability = isset( $options['required_capability'] ) ? $options['required_capability'] : 'manage_options';
 
-		// Ensure the capability is valid and secure.
-		$valid_capabilities = array( 'manage_options', 'edit_posts', 'publish_posts' );
+		// Old 1.4.3 value was labeled "Editors" but edit_posts includes Contributors.
+		if ( 'edit_posts' === $capability ) {
+			$capability = 'edit_others_posts';
+		}
+
+		$valid_capabilities = $this->allowed_capabilities();
 		if ( ! in_array( $capability, $valid_capabilities, true ) ) {
 			$capability = 'manage_options';
 		}
@@ -135,51 +154,56 @@ class Simple_Photo_Feed_Admin {
 	 */
 	public function simple_photo_feed_admin_display() {
 		// Handle custom form submission for non-administrators.
-		if ( ! current_user_can( 'manage_options' ) && isset( $_POST['spf_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['spf_nonce'] ) ), 'spf_save_settings' ) ) {
+		if (
+			! current_user_can( 'manage_options' )
+			&& current_user_can( $this->get_required_capability() )
+			&& isset( $_POST['spf_nonce'] )
+			&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['spf_nonce'] ) ), 'spf_save_settings' )
+		) {
 			$this->handle_custom_form_submission();
 		}
 
 		include_once 'partials/simple-photo-feed-admin-display.php';
 	}
 
-			/**
+	/**
+	 * Capabilities that may be stored for access control.
+	 *
+	 * @since 1.4.4
+	 * @return array
+	 */
+	public function allowed_capabilities() {
+		return array( 'manage_options', 'edit_others_posts', 'publish_posts' );
+	}
+
+	/**
+	 * Allowed feed refresh intervals.
+	 *
+	 * Derived from the same (filterable) list that builds the dropdown,
+	 * so values added via the spf_cron_times filter remain saveable.
+	 *
+	 * @since 1.4.4
+	 * @return array
+	 */
+	public function allowed_cron_times() {
+		return array_map( 'strval', array_keys( $this->simple_photo_feed_cron_times() ) );
+	}
+
+	/**
 	 * Handle form submission for non-administrators
 	 *
 	 * @since  1.4.3
 	 */
 	private function handle_custom_form_submission() {
-		$options = get_option( 'spf_main_settings', array() );
-
-		// Only allow updating specific fields for non-administrators.
-		if ( isset( $_POST['spf_main_settings']['cron_time'] ) ) {
-			$options['cron_time'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['cron_time'] ) );
+		if ( ! current_user_can( $this->get_required_capability() ) ) {
+			return;
 		}
 
-		if ( isset( $_POST['spf_main_settings']['token'] ) ) {
-			$options['token'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['token'] ) );
-		}
-
-		if ( isset( $_POST['spf_main_settings']['user_id'] ) ) {
-			$options['user_id'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['user_id'] ) );
-		}
-
-		if ( isset( $_POST['spf_main_settings']['auth'] ) ) {
-			$options['auth'] = sanitize_text_field( wp_unslash( $_POST['spf_main_settings']['auth'] ) );
-		}
-
-		// Set the capability based on current user's role.
-		if ( current_user_can( 'edit_posts' ) ) {
-			$options['required_capability'] = 'edit_posts'; // Editors and above.
-		} elseif ( current_user_can( 'publish_posts' ) ) {
-			$options['required_capability'] = 'publish_posts'; // Authors and above.
-		}
+		$input   = isset( $_POST['spf_main_settings'] ) && is_array( $_POST['spf_main_settings'] ) ? wp_unslash( $_POST['spf_main_settings'] ) : array();
+		$stored  = get_option( 'spf_main_settings', array() );
+		$options = $this->merge_settings( is_array( $stored ) ? $stored : array(), $input, false );
 
 		update_option( 'spf_main_settings', $options );
-
-		// Add success message.
-		add_action( 'admin_notices', function() {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully!', 'simple-photo-feed' ) . '</p></div>';
-		});
 	}
 
 	/**
@@ -204,13 +228,63 @@ class Simple_Photo_Feed_Admin {
 	 * @return array The sanitized input array.
 	 */
 	public function sanitize_settings( $input ) {
-		// Only administrators can modify access control settings.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			// Set the capability based on current user's role.
-			$input['required_capability'] = current_user_can( 'edit_posts' ) ? 'edit_posts' : 'publish_posts';
+		$stored = get_option( 'spf_main_settings', array() );
+		if ( ! is_array( $stored ) ) {
+			$stored = array();
+		}
+		if ( ! is_array( $input ) ) {
+			$input = array();
 		}
 
-		return $input;
+		return $this->merge_settings( $stored, $input, current_user_can( 'manage_options' ) );
+	}
+
+	/**
+	 * Merge submitted settings into stored options.
+	 *
+	 * @since 1.4.4
+	 * @param array $stored  Existing options.
+	 * @param array $input   Submitted values.
+	 * @param bool  $is_admin Whether the current user may change access control.
+	 * @return array
+	 */
+	private function merge_settings( $stored, $input, $is_admin ) {
+		$output = $stored;
+		unset( $output['app_secret'] );
+
+		if ( isset( $input['cron_time'] ) && in_array( (string) $input['cron_time'], $this->allowed_cron_times(), true ) ) {
+			$output['cron_time'] = (string) $input['cron_time'];
+		}
+
+		if ( isset( $input['token'] ) ) {
+			$token = sanitize_text_field( $input['token'] );
+			if ( '' !== $token || empty( $stored['token'] ) ) {
+				$output['token'] = $token;
+			}
+		}
+
+		if ( isset( $input['user_id'] ) ) {
+			$output['user_id'] = sanitize_text_field( $input['user_id'] );
+		}
+
+		if ( isset( $input['auth'] ) ) {
+			$auth           = sanitize_text_field( $input['auth'] );
+			$output['auth'] = ( ! empty( $output['token'] ) && '' !== $auth ) ? '1' : '';
+		} elseif ( empty( $output['token'] ) ) {
+			$output['auth'] = '';
+		}
+
+		if ( $is_admin && isset( $input['required_capability'] ) ) {
+			$cap = sanitize_text_field( $input['required_capability'] );
+			if ( 'edit_posts' === $cap ) {
+				$cap = 'edit_others_posts';
+			}
+			if ( in_array( $cap, $this->allowed_capabilities(), true ) ) {
+				$output['required_capability'] = $cap;
+			}
+		}
+
+		return $output;
 	}
 
 	/**

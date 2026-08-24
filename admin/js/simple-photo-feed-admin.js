@@ -60,7 +60,9 @@
             if (status === 0 || (status >= 200 && status < 400)) {
               const result = JSON.parse(xhr.responseText);
               const elem = document.createElement('p');
-              elem.innerHTML = '<strong>' + result + '</strong>';
+              const strong = document.createElement('strong');
+              strong.textContent = result;
+              elem.appendChild(strong);
               clearCacheBtn.parentNode.insertBefore(elem, loader);
               loader.classList.add('hidden');
             } else {

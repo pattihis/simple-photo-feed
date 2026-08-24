@@ -147,7 +147,7 @@ window.onload = function () {
         $('#spf_lightbox_image_box img').fadeOut(250, function () {
           $('#spf_lightbox_image_box img').attr('src', $(image).data('src')).fadeIn(250);
         });
-        $('#spf_lightbox_caption').html($(image).attr('title'));
+        $('#spf_lightbox_caption').text($(image).attr('title') || '');
         $('#spf_lightbox_link').attr('href', $(image).data('url'));
       }
     }

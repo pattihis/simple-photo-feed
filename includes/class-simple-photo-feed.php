@@ -71,7 +71,7 @@ class Simple_Photo_Feed {
 		if ( defined( 'SPF_VERSION' ) ) {
 			$this->version = SPF_VERSION;
 		} else {
-			$this->version = '1.4.0';
+			$this->version = '1.4.4';
 		}
 		$this->plugin_name = 'simple-photo-feed';
 
@@ -80,24 +80,11 @@ class Simple_Photo_Feed {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$options = get_option(
-			'spf_main_settings',
-			array(
-				'token'      => '',
-				'cron_time'  => '',
-				'app_id'     => '',
-				'app_secret' => '',
-			)
-		);
-
-		// phpcs:disable
-		$options['token']      = $options['token'] ?: '';
-		$options['cron_time']  = $options['cron_time'] ?: '';
-		$options['app_id']     = $options['app_id'] ?: '3669671916678176';
-		$options['app_secret'] = $options['app_secret'] ?: 'f9b2c883446a66860f861baa4324bec6';
-		// phpcs:enable
-
-		update_option( 'spf_main_settings', $options );
+		$options = get_option( 'spf_main_settings', array() );
+		if ( is_array( $options ) && array_key_exists( 'app_secret', $options ) ) {
+			unset( $options['app_secret'] );
+			update_option( 'spf_main_settings', $options );
+		}
 	}
 
 	/**

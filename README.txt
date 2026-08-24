@@ -3,9 +3,9 @@ Contributors: pattihis
 Donate link: https://profiles.wordpress.org/pattihis/
 Tags: photo gallery, instagram, feed, social, embed
 Requires at least: 5.3.0
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,20 @@ Simple Photo Feed includes configurable access control that allows site administ
 2. Shortcode Usage
 
 == Changelog ==
+
+= 1.4.4 =
+* Ensure compatibility with WordPress 7.1
+* Instagram token exchange now happens on the plugin's OAuth callback host — the app secret is no longer shipped with the plugin
+* Persist refreshed long-lived tokens so the feed does not expire after 60 days
+* Keep existing settings when the plugin is reactivated
+* Fix access-control mapping so "Editors and above" uses edit_others_posts
+* Stop non-administrators from changing the required capability
+* Escape Instagram captions as text in the lightbox
+* Sanitize and merge settings before save
+* Load admin assets and the AJAX nonce only on the plugin's settings screen
+* Stop printing the access token into the settings page HTML
+* Clear the feed-refresh cron on deactivation and restore it on reactivation
+* Fix transient cleanup on uninstall
 
 = 1.4.3 =
 * Added configurable access control - site administrators can now choose which user roles can access the

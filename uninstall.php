@@ -48,9 +48,10 @@ function simple_photo_feed_cleanup() {
 	global $wpdb;
 
 	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-	$trans = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM $wpdb->options WHERE option_name LIKE '%spf_get_media_%'" );
+	$trans = $wpdb->get_results( "SELECT option_name AS name FROM $wpdb->options WHERE option_name LIKE '\_transient\_spf\_get\_media\_%'" );
 	foreach ( $trans as $t ) {
-		delete_transient( $t->name );
+		// option_name is "_transient_spf_get_media_X"; delete_transient() needs "spf_get_media_X".
+		delete_transient( substr( $t->name, strlen( '_transient_' ) ) );
 	}
 
 	// Clear our cron jobs.
